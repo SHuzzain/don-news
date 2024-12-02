@@ -1,24 +1,24 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
-import { View } from 'react-native';
+import { Tabs } from "expo-router";
+import React from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import { View } from "react-native";
 
 function TabBarIcons(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
+  name: React.ComponentProps<typeof FontAwesome>["name"];
 }) {
-  return <FontAwesome size={24} {...props} style={{ color: '#1BC464' }} />;
+  return <FontAwesome size={24} {...props} style={{ color: "#1BC464" }} />;
 }
 
 function TabBarIconsMaterialIcons(props: {
-  name: React.ComponentProps<typeof MaterialIcons>['name'];
+  name: React.ComponentProps<typeof MaterialIcons>["name"];
 }) {
-  return <MaterialIcons size={24} {...props} style={{ color: '#1BC464' }} />;
+  return <MaterialIcons size={24} {...props} style={{ color: "#1BC464" }} />;
 }
 
 const RootLayout = () => {
   return (
-    <SafeAreaView className="flex-1" edges={['top']}>
+    <SafeAreaView className="flex-1" edges={["top"]}>
       <Tabs
         screenOptions={{
           tabBarShowLabel: false,
