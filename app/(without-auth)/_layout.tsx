@@ -4,7 +4,8 @@ import { Stack } from "expo-router";
 export default function SettingLayout() {
   return (
     <Stack>
-      <Stack.Screen name="welcome/index" options={{ headerShown: false }} />
+      <Stack.Screen name="welcome" options={{ headerShown: false }} />
+      <Stack.Screen name="sign-up" options={{ headerShown: false }} />
     </Stack>
   );
 }

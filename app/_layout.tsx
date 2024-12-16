@@ -31,10 +31,8 @@ export default function RootLayout() {
 
   return (
     <Stack>
-      <Stack.Screen
-        name="(screen)"
-        options={{ headerShown: false, title: "screen" }}
-      />
+      <Stack.Screen name="(without-auth)" options={{ headerShown: false }} />
+      <Stack.Screen name="(with-auth)" options={{ headerShown: false }} />
       <Stack.Screen name="+not-found" />
     </Stack>
   );
