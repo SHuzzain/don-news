@@ -18,6 +18,7 @@ module.exports = {
       },
       colors: {
         theme: "hsl(var(--theme))",
+        lynch: "hsl(var(--lynch))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

@@ -1,9 +1,13 @@
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
 import "react-native-reanimated";
 import "../global.css";
+import "react-native-url-polyfill/auto";
+import { useState, useEffect } from "react";
+import { Session } from "@supabase/supabase-js";
+
+import QueryProviders from "@/components/providers/tanstack-query-provider";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -30,10 +34,16 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack>
-      <Stack.Screen name="(without-auth)" options={{ headerShown: false }} />
-      <Stack.Screen name="(with-auth)" options={{ headerShown: false }} />
-      <Stack.Screen name="+not-found" />
-    </Stack>
+    <QueryProviders>
+      <Stack>
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="onboarding/index"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="(with-auth)" options={{ headerShown: false }} />
+        <Stack.Screen name="+not-found" />
+      </Stack>
+    </QueryProviders>
   );
 }

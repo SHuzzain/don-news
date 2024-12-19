@@ -4,7 +4,7 @@ import { Redirect } from "expo-router";
 
 export default function RootScreen() {
   if (true) {
-    return <Redirect href={"/(without-auth)/welcome"} />;
+    return <Redirect href={"/onboarding"} />;
   }
   return (
     <View>

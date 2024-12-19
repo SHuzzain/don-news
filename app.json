@@ -10,12 +10,13 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
-    }, 
+    },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/splash.jpg",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.huzzain.donnews"
     },
     "web": {
       "bundler": "metro",
@@ -36,6 +37,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "45d27c4e-56ae-4197-a5c6-470ca24ea73c"
+      }
     }
   }
 }
