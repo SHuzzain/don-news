@@ -17,10 +17,10 @@ export default function WelComeCard() {
           <Text className="font-JakartaBold text-primary text-xl">News</Text>
         </Text>
         <TouchableOpacity
-          onPress={() => router.replace("/(auth)/sign-up")}
+          onPress={() => router.replace("/(auth)")}
           className=""
         >
-          <Text className="font-bold text-lynch text-md">Skip</Text>
+          <Text className="font-semibold text-lynch text-md">Skip</Text>
         </TouchableOpacity>
       </SectionView>
 
@@ -36,7 +36,7 @@ export default function WelComeCard() {
             {...item}
             handleActive={() => {
               if (index === currentArray.length - 1) {
-                router.replace("/(auth)/sign-up");
+                router.replace("/(auth)");
               } else {
                 swiperRef.current?.scrollTo(index + 1);
               }

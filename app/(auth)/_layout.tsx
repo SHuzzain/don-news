@@ -1,14 +1,21 @@
 import React from "react";
 import { Stack } from "expo-router";
+import StackHeader from "@/components/ui/stack-header";
 
-export default function SettingLayout() {
+export default function AuthRootLayout() {
   return (
     <Stack>
-      <Stack.Screen name="sign-in" options={{ headerShown: false }} />
       <Stack.Screen
-        name="sign-up"
+        name="index"
         options={{
-          headerTitle: "hello",
+          header: () => <StackHeader skip={"/(auth)/(tab)/sign-in"} />,
+        }}
+      />
+
+      <Stack.Screen
+        name="(tab)"
+        options={{
+          header: () => <StackHeader />,
         }}
       />
     </Stack>

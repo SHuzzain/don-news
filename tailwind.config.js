@@ -19,6 +19,7 @@ module.exports = {
       colors: {
         theme: "hsl(var(--theme))",
         lynch: "hsl(var(--lynch))",
+        vogue: "hsl(var(--blue-vogue))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
