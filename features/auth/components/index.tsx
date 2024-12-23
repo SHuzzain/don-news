@@ -1,10 +1,11 @@
-import { ImageBackground, View } from "react-native";
+import { ImageBackground, Pressable, View } from "react-native";
 import React from "react";
 import SectionView from "@/components/layout/section-view";
 import { Button } from "@/components/ui/button";
 import MaterialIocs from "react-native-vector-icons/MaterialCommunityIcons";
 import { Text } from "@/components/ui/text";
 import { handleFaceBookAuth, handleGoogleAuth } from "../actions";
+import { router } from "expo-router";
 export default function AuthCard() {
   return (
     <View className="flex gap-5 bg-white p-5 h-full">
@@ -21,7 +22,11 @@ export default function AuthCard() {
       </SectionView>
 
       <SectionView className="relative flex-[0.4] gap-5">
-        <Button className="flex flex-row items-center rounded-2xl" size={"lg"}>
+        <Button
+          onPress={() => router.push("/(auth)/(tab)/sign-in")}
+          className="flex flex-row items-center rounded-2xl"
+          size={"lg"}
+        >
           <MaterialIocs name="email-outline" color={"#fff"} size={24} />
           <Text className="ml-4 font-Jakarta text-white">
             Continue with Email
@@ -52,10 +57,16 @@ export default function AuthCard() {
           </Text>
         </Button>
 
-        <Text className="text-center text-lynch">
-          Dont't have account?{" "}
-          <Text className="font-JakartaBold text-primary">Sign Up</Text>
-        </Text>
+        <View className="web:flex flex-row justify-center items-center">
+          <Text className="text-center text-lynch">Dont't have account?</Text>
+          <Button
+            className="px-0"
+            variant={"link"}
+            onPress={() => router.push("/(auth)/(tab)/sign-up")}
+          >
+            <Text className="font-JakartaBold">Sign Up</Text>
+          </Button>
+        </View>
       </SectionView>
     </View>
   );
