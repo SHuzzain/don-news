@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/tw-class";
 import { usePathname } from "expo-router";
 import { TabList, Tabs, TabSlot, TabTrigger } from "expo-router/ui";
 

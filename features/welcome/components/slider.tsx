@@ -3,7 +3,7 @@ import SectionView from "@/components/layout/section-view";
 import { Text, View, ImageBackground } from "react-native";
 import { SlideItem } from "../types";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/tw-class";
 
 const Slider = (props: SlideItem & { handleActive: () => void }) => {
   const { buttonText, img, text, handleActive } = props;

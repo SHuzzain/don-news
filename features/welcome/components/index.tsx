@@ -1,29 +1,14 @@
-import { TouchableOpacity, View } from "react-native";
+import { View } from "react-native";
 import React, { useRef } from "react";
 import Swiper from "react-native-swiper";
-import { Text } from "@/components/ui/text";
 import { sliderData } from "../constant";
 import { router } from "expo-router";
 import Slider from "./slider";
-import SectionView from "@/components/layout/section-view";
 
 export default function WelComeCard() {
   const swiperRef = useRef<Swiper>(null);
   return (
-    <View className="flex-1 justify-between items-center bg-white px-5 pt-2 pb-5 h-full">
-      <SectionView className="flex-row justify-between px-2 w-full">
-        <Text className="font-JakartaBold text-3xl">
-          Don{" "}
-          <Text className="font-JakartaBold text-primary text-xl">News</Text>
-        </Text>
-        <TouchableOpacity
-          onPress={() => router.replace("/(auth)")}
-          className=""
-        >
-          <Text className="font-semibold text-lynch text-md">Skip</Text>
-        </TouchableOpacity>
-      </SectionView>
-
+    <View className="flex-1 justify-between items-center px-5 pt-2 pb-5">
       <Swiper
         ref={swiperRef}
         loop={false}

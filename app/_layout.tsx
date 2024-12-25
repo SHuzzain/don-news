@@ -4,13 +4,24 @@ import * as SplashScreen from "expo-splash-screen";
 import "react-native-reanimated";
 import "../global.css";
 import "react-native-url-polyfill/auto";
-import { useState, useEffect } from "react";
-import { Session } from "@supabase/supabase-js";
+import React, { useEffect } from "react";
+import { StatusBar } from "expo-status-bar";
 
 import QueryProviders from "@/components/providers/tanstack-query-provider";
+import StackHeader from "@/components/ui/stack-header";
+import { Text } from "@/components/ui/text";
+import { colorScheme as nativewindColorScheme } from "nativewind";
+import { ThemeProvider } from "@/components/providers/theme-provider";
+
+export {
+  // Catch any errors thrown by the Layout component.
+  ErrorBoundary,
+} from "expo-router";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+
+nativewindColorScheme.set("system");
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -35,17 +46,35 @@ export default function RootLayout() {
 
   return (
     <QueryProviders>
-      <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+      <ThemeProvider>
+        <Stack>
+          <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
 
-        <Stack.Screen
-          name="onboarding/index"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen name="(with-auth)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
+          <Stack.Screen
+            name="onboarding/index"
+            options={{
+              header: () => (
+                <StackHeader
+                  isBack={false}
+                  skip={"/(auth)"}
+                  title={
+                    <Text className="font-JakartaBold text-3xl">
+                      Don{" "}
+                      <Text className="font-JakartaBold text-primary text-xl">
+                        News
+                      </Text>
+                    </Text>
+                  }
+                />
+              ),
+            }}
+          />
+          <Stack.Screen name="(with-auth)" options={{ headerShown: false }} />
+          <Stack.Screen name="+not-found" />
+        </Stack>
+        <StatusBar style="auto" />
+      </ThemeProvider>
     </QueryProviders>
   );
 }

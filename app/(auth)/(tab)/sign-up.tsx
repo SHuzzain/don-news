@@ -1,10 +1,6 @@
-import { View, Text } from "react-native";
 import React from "react";
+import SignUpCard from "@/features/auth/components/signUp-card";
 
 export default function SignUpScreen() {
-  return (
-    <View>
-      <Text>SignUpScreen</Text>
-    </View>
-  );
+  return <SignUpCard />;
 }

@@ -1,8 +1,6 @@
-"use client";
-
 import * as React from "react";
-import * as Slot from "@rn-primitives/slot";
-import { SlottableViewProps } from "@rn-primitives/types";
+import * as Slot from "@/components/primitives/slot";
+import { SlottableViewProps } from "@/components/primitives/types";
 import {
   Root as RootLabel,
   Text as LabelText,
@@ -17,7 +15,7 @@ import {
   useFormContext,
 } from "react-hook-form";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/tw-class";
 import { View, ViewProps as RNViewProps, TextProps } from "react-native"; // Updated type
 import { Text } from "./text";
 

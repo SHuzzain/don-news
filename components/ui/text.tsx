@@ -1,8 +1,8 @@
-import * as Slot from "@rn-primitives/slot";
-import { SlottableTextProps, TextRef } from "@rn-primitives/types";
+import * as Slot from "@/components/primitives/slot";
+import { SlottableTextProps, TextRef } from "@/components/primitives/types";
 import * as React from "react";
 import { Text as RNText } from "react-native";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/tw-class";
 
 const TextClassContext = React.createContext<string | undefined>(undefined);
 
@@ -13,7 +13,7 @@ const Text = React.forwardRef<TextRef, SlottableTextProps>(
     return (
       <Component
         className={cn(
-          "text-base text-foreground web:select-text",
+          "text-base text-foreground web:select-text font-Jakarta",
           textClass,
           className,
         )}

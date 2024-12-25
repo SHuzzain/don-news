@@ -6,9 +6,10 @@ import MaterialIocs from "react-native-vector-icons/MaterialCommunityIcons";
 import { Text } from "@/components/ui/text";
 import { handleFaceBookAuth, handleGoogleAuth } from "../actions";
 import { router } from "expo-router";
+import { Mail } from "lucide-react-native";
 export default function AuthCard() {
   return (
-    <View className="flex gap-5 bg-white p-5 h-full">
+    <View className="flex flex-1 gap-5 p-5">
       <SectionView className="relative flex-[0.6] rounded-3xl overflow-hidden">
         <ImageBackground
           source={require("@/assets/images/welcome1.png")}
@@ -27,7 +28,7 @@ export default function AuthCard() {
           className="flex flex-row items-center rounded-2xl"
           size={"lg"}
         >
-          <MaterialIocs name="email-outline" color={"#fff"} size={24} />
+          <Mail size={24} color={"#fff"} />
           <Text className="ml-4 font-Jakarta text-white">
             Continue with Email
           </Text>
@@ -57,15 +58,11 @@ export default function AuthCard() {
           </Text>
         </Button>
 
-        <View className="web:flex flex-row justify-center items-center">
+        <View className="web:flex flex-row justify-center items-center gap-2">
           <Text className="text-center text-lynch">Dont't have account?</Text>
-          <Button
-            className="px-0"
-            variant={"link"}
-            onPress={() => router.push("/(auth)/(tab)/sign-up")}
-          >
-            <Text className="font-JakartaBold">Sign Up</Text>
-          </Button>
+          <Pressable onPress={() => router.push("/(auth)/(tab)/sign-up")}>
+            <Text className="font-JakartaBold text-primary"> Sign Up</Text>
+          </Pressable>
         </View>
       </SectionView>
     </View>

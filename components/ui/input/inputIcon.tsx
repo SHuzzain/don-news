@@ -1,7 +1,7 @@
 import { TextInput, TextInputProps, View, ViewProps } from "react-native";
 import React from "react";
 import { Input } from ".";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/tw-class";
 
 const InputIcon = React.forwardRef<
   React.ElementRef<typeof TextInput>,
