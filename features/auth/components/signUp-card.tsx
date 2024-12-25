@@ -39,8 +39,8 @@ export default function SignUpCard() {
     console.log(values);
   }
   return (
-    <View className="flex-1 gap-5 p-5">
-      <Text className="mb-5 font-JakartaBold text-5xl text-vogue">
+    <View className="flex-1 gap-5 bg-background p-5">
+      <Text className="mb-5 font-JakartaBold text-5xl text-vogue dark:text-primary">
         Create {"\n"}an account
       </Text>
 
@@ -134,7 +134,11 @@ export default function SignUpCard() {
                     />
                     <Text>
                       I have read{"  "}
-                      <TouchableOpacity activeOpacity={0.6} onPress={() => {}}>
+                      <TouchableOpacity
+                        activeOpacity={0.6}
+                        onPress={() => {}}
+                        className="mt-0.5"
+                      >
                         <Text className="font-JakartaBold text-primary">
                           term & Aggreenment
                         </Text>

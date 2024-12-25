@@ -8,7 +8,7 @@ export default function TabAuthLayout() {
   const pathname = usePathname();
   return (
     <Tabs>
-      <TabList className="flex gap-5 bg-white py-10 p-5">
+      <TabList className="flex gap-5 bg-background py-10 p-5">
         <TabTrigger name="sign-in" href="/(auth)/(tab)/sign-in" asChild>
           <Button
             className={cn(

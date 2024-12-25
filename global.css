@@ -2,20 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  html {
-    height: -webkit-fill-available;
-  }
-
-  body {
-    height: -webkit-fill-available;
-  }
-
-  #root {
-    height: -webkit-fill-available;
-  }
-}
-
 .aa {
-  background-color: hsl(220 16.67% 7.06%);
+  background-color: hsl(240 19% 93%);
 }

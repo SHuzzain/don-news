@@ -9,14 +9,14 @@ import { router } from "expo-router";
 import { Mail } from "lucide-react-native";
 export default function AuthCard() {
   return (
-    <View className="flex flex-1 gap-5 p-5">
+    <View className="flex flex-1 gap-5 bg-background p-5">
       <SectionView className="relative flex-[0.6] rounded-3xl overflow-hidden">
         <ImageBackground
           source={require("@/assets/images/welcome1.png")}
           className="absolute inset-0 flex justify-end p-5 size-full"
           resizeMode="cover"
         >
-          <Text className="font-JakartaBold text-4xl text-start text-white leading-snug">
+          <Text className="font-JakartaBold text-4xl text-start text-white leading-relaxed">
             Sign In {"\n"}options.
           </Text>
         </ImageBackground>
@@ -29,9 +29,7 @@ export default function AuthCard() {
           size={"lg"}
         >
           <Mail size={24} color={"#fff"} />
-          <Text className="ml-4 font-Jakarta text-white">
-            Continue with Email
-          </Text>
+          <Text className="ml-4 font-Jakarta">Continue with Email</Text>
         </Button>
 
         <Button

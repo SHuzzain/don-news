@@ -41,7 +41,7 @@ export const themes = {
     "--popover-foreground": "349 100% 58%",
     "--primary": "349 100% 58%",
     "--primary-foreground": "0 0% 100%",
-    "--secondary": "0 0% 14.9%",
+    "--secondary": "240 19% 93%",
     "--secondary-foreground": "349 100% 58%",
     "--muted": "0 0% 14.9%",
     "--muted-foreground": "0 0% 63.9%",

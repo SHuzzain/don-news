@@ -5,7 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function AuthRootLayout() {
   return (
-    <SafeAreaView className="flex-1" edges={["left", "right"]}>
+    <SafeAreaView className="flex-1 bg-background" edges={["left", "right"]}>
       <Stack>
         <Stack.Screen
           name="index"
@@ -13,7 +13,25 @@ export default function AuthRootLayout() {
             header: () => <StackHeader skip={"/(auth)/(tab)/sign-in"} />,
           }}
         />
+        <Stack.Screen
+          name="update-pwd"
+          options={{
+            header: () => <StackHeader />,
+          }}
+        />
+        <Stack.Screen
+          name="forget-pwd"
+          options={{
+            header: () => <StackHeader />,
+          }}
+        />
 
+        <Stack.Screen
+          name="verification"
+          options={{
+            header: () => <StackHeader />,
+          }}
+        />
         <Stack.Screen
           name="(tab)"
           options={{

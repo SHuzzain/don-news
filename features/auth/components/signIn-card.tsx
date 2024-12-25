@@ -19,6 +19,7 @@ import { signInSchema } from "../schema";
 import { Text } from "@/components/ui/text";
 import { handleFaceBookAuth, handleGoogleAuth } from "../actions";
 import { Mail } from "@/lib/icons/Email";
+import { Link } from "expo-router";
 
 export default function SignInCard() {
   const form = useForm<z.infer<typeof signInSchema>>({
@@ -35,8 +36,8 @@ export default function SignInCard() {
     console.log(values);
   }
   return (
-    <View className="flex-1 gap-5 p-5">
-      <Text className="mb-5 font-JakartaBold text-5xl text-vogue">
+    <View className="flex-1 gap-5 bg-background p-5">
+      <Text className="mb-5 font-JakartaBold text-5xl text-secondary-foreground leading-relaxed">
         Let's Sign {"\n"}You In
       </Text>
 
@@ -88,6 +89,9 @@ export default function SignInCard() {
                 </FormItem>
               )}
             />
+            <Link href={"/(auth)/forget-pwd"} className="ml-1 text-gray-500">
+              forget password?
+            </Link>
           </View>
         </Form>
       </SectionView>

@@ -1,9 +1,8 @@
-import { useTheme } from "@react-navigation/native";
 import { Href, router } from "expo-router";
+import { ArrowLeft } from "lucide-react-native";
+import { useColorScheme } from "nativewind";
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
-import Icon from "react-native-vector-icons/Ionicons";
-
 type Props = {
   skip?: Href;
   isBack?: boolean;
@@ -11,14 +10,16 @@ type Props = {
 };
 
 const StackHeader = ({ skip, isBack = true, title = "" }: Props) => {
-  const { dark } = useTheme();
-
+  const { colorScheme } = useColorScheme();
   return (
     <View className="flex flex-row justify-between bg-background px-5 pt-safe">
       {title}
       {isBack && (
         <TouchableOpacity onPress={() => router.back()}>
-          <Icon name="arrow-back" size={24} color={dark ? "white" : "black"} />
+          <ArrowLeft
+            color={colorScheme === "dark" ? "white" : "black"}
+            size={24}
+          />
         </TouchableOpacity>
       )}
       {skip && (
