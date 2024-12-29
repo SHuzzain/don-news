@@ -7,6 +7,7 @@ import Slider from "./slider";
 
 export default function WelComeCard() {
   const swiperRef = useRef<Swiper>(null);
+
   return (
     <View className="flex-1 justify-between items-center px-5 pt-2 pb-5">
       <Swiper

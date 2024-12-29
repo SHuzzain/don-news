@@ -1,4 +1,4 @@
-import UpdatePwdCard from "@/features/auth/components/updatePwd-card";
+import UpdatePwdCard from "@/features/auth/pages/updatePwd-card";
 export default function ForgetPwdScreen() {
   return <UpdatePwdCard />;
 }

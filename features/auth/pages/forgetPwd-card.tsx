@@ -18,6 +18,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { router } from "expo-router";
+import HeadingText from "../components/heading-text";
 
 export default function ForgetPwdCard() {
   const form = useForm<z.infer<typeof forgetPwdSchema>>({
@@ -44,9 +45,9 @@ export default function ForgetPwdCard() {
 
       <SectionView className="web:flex flex-[0.7] justify-between">
         <View>
-          <Text className="mb-5 font-JakartaBold text-5xl text-secondary-foreground leading-tight">
+          <HeadingText className="mb-5 leading-tight">
             Forget {"\n"}Password
-          </Text>
+          </HeadingText>
 
           <Text className="mb-5 font-JakartaSemiBold text-gray-500 leading-relaxed">
             Enter your old password to reset{"\n"} password

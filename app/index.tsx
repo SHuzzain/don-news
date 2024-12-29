@@ -17,7 +17,6 @@ export default function RootScreen() {
   if (isLoading) {
     return <ActivityIndicator />;
   }
-  console.log({ profile });
   // Redirect based on profile state
   if (!profile) {
     return <Redirect href="/onboarding" />;

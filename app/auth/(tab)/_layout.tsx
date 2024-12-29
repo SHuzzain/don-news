@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import { cn } from "@/lib/utils/tw-class";
-import { usePathname } from "expo-router";
+import { Href, usePathname } from "expo-router";
 import { TabList, Tabs, TabSlot, TabTrigger } from "expo-router/ui";
 
 export default function TabAuthLayout() {
-  const pathname = usePathname();
+  const pathname = usePathname() as Href;
   return (
     <Tabs>
       <TabList className="flex gap-5 bg-background py-10 p-5">
@@ -13,13 +13,13 @@ export default function TabAuthLayout() {
           <Button
             className={cn(
               " py-1 native:py-1 rounded-3xl native:h-10",
-              pathname === "/sign-in" ? "bg-vogue" : "bg-secondary",
+              pathname === "/auth/sign-in" ? "bg-vogue" : "bg-secondary",
             )}
           >
             <Text
               className={cn(
                 "px-2 text-base text-white",
-                pathname === "/sign-in" ? "text-white" : "text-vogue",
+                pathname === "/auth/sign-in" ? "text-white" : "text-vogue",
               )}
             >
               Sign In
@@ -35,13 +35,13 @@ export default function TabAuthLayout() {
           <Button
             className={cn(
               " py-1 native:py-1 rounded-3xl native:h-10 ",
-              pathname === "/sign-up" ? "bg-vogue" : "bg-secondary",
+              pathname === "/auth/sign-up" ? "bg-vogue" : "bg-secondary",
             )}
           >
             <Text
               className={cn(
                 "px-2 text-base text-white",
-                pathname === "/sign-up" ? "text-white" : "text-vogue",
+                pathname === "/auth/sign-up" ? "text-white" : "text-vogue",
               )}
             >
               Sign Up

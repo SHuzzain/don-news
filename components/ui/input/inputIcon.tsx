@@ -8,7 +8,7 @@ const InputIcon = React.forwardRef<
   TextInputProps & {
     viewProps?: ViewProps;
     iconPosition?: "left" | "right";
-    isError: boolean;
+    isError?: boolean;
   }
 >(({ viewProps, children, iconPosition, isError, ...props }, ref) => {
   return (

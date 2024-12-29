@@ -17,6 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { router } from "expo-router";
 import InputPwf from "@/components/ui/input/input-pwd";
+import HeadingText from "../components/heading-text";
 
 export default function UpdatePwdCard() {
   const form = useForm<z.infer<typeof updatePwdSchema>>({
@@ -29,7 +30,7 @@ export default function UpdatePwdCard() {
 
   const onSubmit = (values: z.infer<typeof updatePwdSchema>) => {
     console.log(values);
-    router.push("auth/(tab)/sign-in");
+    router.push("/auth/(tab)/sign-in");
   };
 
   return (
@@ -44,9 +45,7 @@ export default function UpdatePwdCard() {
 
       <SectionView className="web:flex flex-[0.7] justify-between">
         <View>
-          <Text className="mb-5 font-JakartaBold text-5xl text-secondary-foreground leading-relaxed">
-            Forget {"\n"}Password
-          </Text>
+          <HeadingText>Forget {"\n"}Password</HeadingText>
 
           <Text className="mb-5 font-JakartaSemiBold text-gray-500 leading-relaxed">
             Enter your new password to reset{"\n"} old password

@@ -1,26 +1,22 @@
+import React from "react";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
+import { Stack } from "expo-router";
 import "react-native-reanimated";
 import "../global.css";
 import "react-native-url-polyfill/auto";
-import React, { useEffect } from "react";
-import { StatusBar } from "expo-status-bar";
 
 import QueryProviders from "@/components/providers/tanstack-query-provider";
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import { usePermissions } from "@/hooks/use-permission";
+import { colorScheme as nativewindColorScheme } from "nativewind";
 import StackHeader from "@/components/ui/stack-header";
 import { Text } from "@/components/ui/text";
-import { colorScheme as nativewindColorScheme } from "nativewind";
-import { ThemeProvider } from "@/components/providers/theme-provider";
+import { StatusBar } from "expo-status-bar";
 
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from "expo-router";
+export { ErrorBoundary } from "expo-router";
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
-
 nativewindColorScheme.set("system");
 
 export default function RootLayout() {
@@ -34,14 +30,16 @@ export default function RootLayout() {
     "Jakarta-SemiBold": require("@/assets/fonts/PlusJakartaSans-SemiBold.ttf"),
   });
 
-  useEffect(() => {
-    if (loaded) {
+  const permissionsGranted = usePermissions();
+
+  React.useEffect(() => {
+    if (loaded && permissionsGranted) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [loaded, permissionsGranted]);
 
-  if (!loaded) {
-    return null;
+  if (!loaded || !permissionsGranted) {
+    return null; // Render a fallback if resources are not ready
   }
 
   return (

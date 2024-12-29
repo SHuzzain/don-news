@@ -6,12 +6,13 @@ import InputOTP from "@/components/ui/input/input-otp";
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import { router } from "expo-router";
+import HeadingText from "../components/heading-text";
 
 export default function VerficationCard() {
   return (
     <View className="flex-1 bg-background p-5">
       <SectionView className="mt-10">
-        <H1 className="text-secondary-foreground">VerficationCard</H1>
+        <HeadingText>VerficationCard</HeadingText>
         <P className="my-5 text-lg text-muted-foreground">
           Enter your verfication code the we{"\n"}sent you through your email
         </P>
@@ -30,11 +31,11 @@ export default function VerficationCard() {
         </P>
 
         <Button
-          onPress={() => router.push("/auth/update-pwd")}
+          onPress={() => router.push("/auth/setup")}
           className="flex flex-row items-center rounded-2xl"
           size={"lg"}
         >
-          <Text>Next</Text>
+          <Text>Verify</Text>
         </Button>
       </SectionView>
     </View>

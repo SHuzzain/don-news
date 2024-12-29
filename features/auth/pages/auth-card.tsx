@@ -7,6 +7,7 @@ import { Text } from "@/components/ui/text";
 import { handleFaceBookAuth, handleGoogleAuth } from "../actions";
 import { router } from "expo-router";
 import { Mail } from "lucide-react-native";
+import HeadingText from "../components/heading-text";
 
 export default function AuthCard() {
   return (
@@ -17,9 +18,9 @@ export default function AuthCard() {
           className="absolute inset-0 flex justify-end p-5 size-full"
           resizeMode="cover"
         >
-          <Text className="font-JakartaBold text-4xl text-start text-white leading-relaxed">
+          <HeadingText className="text-white">
             Sign In {"\n"}options.
-          </Text>
+          </HeadingText>
         </ImageBackground>
       </SectionView>
 
