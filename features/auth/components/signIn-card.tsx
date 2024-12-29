@@ -89,7 +89,7 @@ export default function SignInCard() {
                 </FormItem>
               )}
             />
-            <Link href={"/(auth)/forget-pwd"} className="ml-1 text-gray-500">
+            <Link href={"/auth/forget-pwd"} className="ml-1 text-gray-500">
               forget password?
             </Link>
           </View>

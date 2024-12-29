@@ -9,7 +9,7 @@ export default function TabAuthLayout() {
   return (
     <Tabs>
       <TabList className="flex gap-5 bg-background py-10 p-5">
-        <TabTrigger name="sign-in" href="/(auth)/(tab)/sign-in" asChild>
+        <TabTrigger name="sign-in" href="/auth/(tab)/sign-in" asChild>
           <Button
             className={cn(
               " py-1 native:py-1 rounded-3xl native:h-10",
@@ -29,7 +29,7 @@ export default function TabAuthLayout() {
         <TabTrigger
           className="mr-auto"
           name="sign-up"
-          href="/(auth)/(tab)/sign-up"
+          href="/auth/(tab)/sign-up"
           asChild
         >
           <Button

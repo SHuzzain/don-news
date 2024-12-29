@@ -21,7 +21,7 @@ export default function WelComeCard() {
             {...item}
             handleActive={() => {
               if (index === currentArray.length - 1) {
-                router.replace("/(auth)");
+                router.replace("/auth");
               } else {
                 swiperRef.current?.scrollTo(index + 1);
               }

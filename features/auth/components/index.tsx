@@ -7,6 +7,7 @@ import { Text } from "@/components/ui/text";
 import { handleFaceBookAuth, handleGoogleAuth } from "../actions";
 import { router } from "expo-router";
 import { Mail } from "lucide-react-native";
+
 export default function AuthCard() {
   return (
     <View className="flex flex-1 gap-5 bg-background p-5">
@@ -24,7 +25,7 @@ export default function AuthCard() {
 
       <SectionView className="relative flex-[0.4] gap-5">
         <Button
-          onPress={() => router.push("/(auth)/(tab)/sign-in")}
+          onPress={() => router.push("/auth/(tab)/sign-in")}
           className="flex flex-row items-center rounded-2xl"
           size={"lg"}
         >
@@ -58,7 +59,7 @@ export default function AuthCard() {
 
         <View className="web:flex flex-row justify-center items-center gap-2">
           <Text className="text-center text-lynch">Dont't have account?</Text>
-          <Pressable onPress={() => router.push("/(auth)/(tab)/sign-up")}>
+          <Pressable onPress={() => router.push("/auth/(tab)/sign-up")}>
             <Text className="font-JakartaBold text-primary"> Sign Up</Text>
           </Pressable>
         </View>

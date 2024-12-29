@@ -29,7 +29,7 @@ export default function UpdatePwdCard() {
 
   const onSubmit = (values: z.infer<typeof updatePwdSchema>) => {
     console.log(values);
-    router.push("/(auth)/(tab)/sign-in");
+    router.push("auth/(tab)/sign-in");
   };
 
   return (

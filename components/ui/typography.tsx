@@ -32,7 +32,7 @@ const H2 = React.forwardRef<TextRef, SlottableTextProps>(
         role="heading"
         aria-level="2"
         className={cn(
-          "web:scroll-m-20 border-b border-border pb-2 text-3xl  font-Jakarta text-foreground font-semibold tracking-tight first:mt-0 web:select-text",
+          "web:scroll-m-20 border-b border-border pb-2 text-3xl  font-JakartaSemiBold text-foreground font-semibold tracking-tight first:mt-0 web:select-text",
           className,
         )}
         ref={ref}
@@ -52,7 +52,7 @@ const H3 = React.forwardRef<TextRef, SlottableTextProps>(
         role="heading"
         aria-level="3"
         className={cn(
-          "web:scroll-m-20 text-2xl text-foreground font-semibold tracking-tight web:select-text font-Jakarta",
+          "web:scroll-m-20 text-2xl text-foreground font-semibold tracking-tight web:select-text font-JakartaSemiBold",
           className,
         )}
         ref={ref}
@@ -72,7 +72,7 @@ const H4 = React.forwardRef<TextRef, SlottableTextProps>(
         role="heading"
         aria-level="4"
         className={cn(
-          "web:scroll-m-20 text-xl text-foreground font-semibold tracking-tight web:select-text font-Jakarta",
+          "web:scroll-m-20 text-xl text-foreground font-semibold font-JakartaSemiBold tracking-tight web:select-text",
           className,
         )}
         ref={ref}
@@ -166,7 +166,7 @@ const Large = React.forwardRef<TextRef, SlottableTextProps>(
     return (
       <Component
         className={cn(
-          "text-xl text-foreground font-semibold web:select-text font-Jakarta",
+          "text-xl text-foreground font-semibold web:select-text font-JakartaSemiBold",
           className,
         )}
         ref={ref}

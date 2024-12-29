@@ -30,7 +30,7 @@ export default function VerficationCard() {
         </P>
 
         <Button
-          onPress={() => router.push("/(auth)/update-pwd")}
+          onPress={() => router.push("/auth/update-pwd")}
           className="flex flex-row items-center rounded-2xl"
           size={"lg"}
         >

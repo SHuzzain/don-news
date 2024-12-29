@@ -49,7 +49,7 @@ export default function RootLayout() {
       <ThemeProvider>
         <Stack>
           <Stack.Screen name="index" options={{ headerShown: false }} />
-          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          <Stack.Screen name="auth" options={{ headerShown: false }} />
 
           <Stack.Screen
             name="onboarding/index"
@@ -57,7 +57,7 @@ export default function RootLayout() {
               header: () => (
                 <StackHeader
                   isBack={false}
-                  skip={"/(auth)"}
+                  skip={"/auth"}
                   title={
                     <Text className="font-JakartaBold text-3xl">
                       Don{" "}
@@ -72,6 +72,7 @@ export default function RootLayout() {
           />
           <Stack.Screen name="(with-auth)" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
+          <Stack.Screen name="policies" options={{ headerShown: false }} />
         </Stack>
         <StatusBar style="auto" />
       </ThemeProvider>

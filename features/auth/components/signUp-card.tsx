@@ -21,6 +21,7 @@ import { signUpSchema } from "../schema";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Mail } from "@/lib/icons/Email";
 import { CircleUserRound } from "@/lib/icons/Person-circle";
+import { router } from "expo-router";
 
 export default function SignUpCard() {
   const form = useForm<z.infer<typeof signUpSchema>>({
@@ -136,7 +137,7 @@ export default function SignUpCard() {
                       I have read{"  "}
                       <TouchableOpacity
                         activeOpacity={0.6}
-                        onPress={() => {}}
+                        onPress={() => router.push("/policies")}
                         className="mt-0.5"
                       >
                         <Text className="font-JakartaBold text-primary">
