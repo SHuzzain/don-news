@@ -4,7 +4,7 @@ import SectionView from "@/components/layout/section-view";
 import { Button } from "@/components/ui/button";
 import MaterialIocs from "react-native-vector-icons/MaterialCommunityIcons";
 import { Text } from "@/components/ui/text";
-import { handleFaceBookAuth, handleGoogleAuth } from "../actions";
+import { handleAuth } from "../actions";
 import { router } from "expo-router";
 import { Mail } from "lucide-react-native";
 import HeadingText from "@/components/ui/heading-text";
@@ -38,7 +38,7 @@ export default function AuthCard() {
           variant={"secondary"}
           className="flex flex-row items-center rounded-2xl"
           size={"lg"}
-          onPress={handleGoogleAuth}
+          onPress={() => handleAuth("google")}
         >
           <MaterialIocs name="google" color={"black"} size={24} />
           <Text className="ml-4 font-Jakarta text-black">
@@ -50,7 +50,7 @@ export default function AuthCard() {
           className="flex flex-row items-center rounded-2xl"
           variant={"secondary"}
           size={"lg"}
-          onPress={handleFaceBookAuth}
+          onPress={() => handleAuth("facebook")}
         >
           <MaterialIocs name="facebook" color={"black"} size={24} />
           <Text className="ml-4 font-Jakarta text-black">

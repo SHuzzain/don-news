@@ -2,15 +2,21 @@ import * as WebBrowser from "expo-web-browser";
 import * as QueryParams from "expo-auth-session/build/QueryParams";
 import { makeRedirectUri } from "expo-auth-session";
 import { supabase } from "@/lib/supabase";
-import { AuthError, User } from "@supabase/supabase-js";
+import { AuthError, VerifyOtpParams } from "@supabase/supabase-js";
+import { AuthSessionProps } from "../types";
+import { z } from "zod";
+import { signInSchema, signUpSchema } from "../schema";
 
-// required for web only
 const redirectTo = makeRedirectUri();
 
+/**
+ * Extracts session information from the URL and sets the session in Supabase.
+ */
 export const createSessionFromUrl = async (url: string) => {
   const { params, errorCode } = QueryParams.getQueryParams(url);
 
   if (errorCode) throw new Error(errorCode);
+
   const { access_token, refresh_token } = params;
 
   if (!access_token) return;
@@ -19,79 +25,119 @@ export const createSessionFromUrl = async (url: string) => {
     access_token,
     refresh_token,
   });
+
   if (error) throw error;
+
   return data.session;
 };
 
-export const handleGoogleAuth = async () => {
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: "google",
-    options: {
-      redirectTo,
-      skipBrowserRedirect: true,
-    },
-  });
-
-  if (error) {
-    console.error("Error during Google Auth:", error);
-    return;
-  }
-
-  const res = await WebBrowser.openAuthSessionAsync(
-    data?.url ?? "",
-    redirectTo,
-  );
-
-  if (res.type === "success") {
-    const { url } = res;
-    await createSessionFromUrl(url);
-  }
-};
-
-export const handleFaceBookAuth = async () => {
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: "facebook",
-    options: {
-      redirectTo,
-      skipBrowserRedirect: true,
-    },
-  });
-
-  if (error) {
-    console.error("Error during Facebook Auth:", error);
-    return;
-  }
-
-  const res = await WebBrowser.openAuthSessionAsync(
-    data?.url ?? "",
-    redirectTo,
-  );
-
-  if (res.type === "success") {
-    const { url } = res;
-    await createSessionFromUrl(url);
-  }
-};
-
-export const fetchAuthUser = async (): Promise<{
-  user: User | null;
-  error: AuthError | null;
-}> => {
+/**
+ * Handles authentication for a given provider.
+ */
+export const handleAuth = async (provider: "google" | "facebook") => {
   try {
-    const response = await supabase.auth.getUser();
-    return { user: response.data?.user || null, error: response.error || null };
-  } catch (error) {
-    console.error("SUPABASE_AUTH_ERROR", error);
-    return { user: null, error: error as AuthError };
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo,
+        skipBrowserRedirect: true,
+      },
+    });
+
+    if (error) throw error;
+
+    const res = await WebBrowser.openAuthSessionAsync(
+      data?.url ?? "",
+      redirectTo,
+    );
+
+    if (res.type === "success" && res.url) {
+      await createSessionFromUrl(res.url);
+    }
+  } catch (err) {
+    console.error(`Error during ${provider} Auth:`, err);
   }
 };
 
+/**
+ * Handle authentication sign in and sign up
+ */
+
+export const handleSignIn = async (values: z.infer<typeof signInSchema>) => {
+  const checkHasAccount = await supabase
+    .from("profiles")
+    .select("*")
+    .or(`username.eq.${values.credential},email.eq.${values.credential}`)
+    .single();
+  if (checkHasAccount.error) {
+    throw checkHasAccount.error;
+  }
+  console.log({ checkHasAccount });
+};
+
+/**
+ * Handle authentication sign in and sign up
+ */
+
+export const handleSignUp = async (values: z.infer<typeof signUpSchema>) => {
+  const { terms, ...data } = values;
+
+  const response = await supabase.auth.signUp({
+    email: data.email,
+    password: data.password,
+    options: {
+      data: {
+        username: data.username,
+      },
+    },
+  });
+  if (response.error) {
+    throw response.error.message;
+  }
+
+  return response;
+};
+
+/**
+ * implement otp verification logic here
+ */
+
+export const handleOtp = async (data: VerifyOtpParams) => {
+  const response = await supabase.auth.verifyOtp(data);
+  if (response.error) {
+    throw response.error;
+  }
+
+  return response.data;
+};
+
+/**
+ * Retrieves the current session from Supabase.
+ */
+export const handleSession = async (): Promise<
+  AuthSessionProps & { error: AuthError | null }
+> => {
+  try {
+    const { data, error } = await supabase.auth.getSession();
+
+    if (error) throw error;
+
+    return { session: data.session, error: null };
+  } catch (err) {
+    console.error("SUPABASE_AUTH_ERROR", err);
+    return { session: null, error: err as AuthError };
+  }
+};
+
+/**
+ * Logs out the user.
+ */
 export const logoutUser = async (): Promise<{ error: AuthError | null }> => {
   try {
     const { error } = await supabase.auth.signOut();
     return { error };
-  } catch (error) {
-    console.error("LOGOUT_ERROR", error);
-    return { error: error as AuthError };
+  } catch (err) {
+    console.error("LOGOUT_ERROR", err);
+    return { error: err as AuthError };
   }
 };

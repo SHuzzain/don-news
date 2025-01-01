@@ -1,6 +1,8 @@
 import React from "react";
 import VerficationCard from "@/features/auth/pages/verfication-card";
+import { useLocalSearchParams } from "expo-router";
 
 export default function VerificationScreen() {
-  return <VerficationCard />;
+  const params = useLocalSearchParams();
+  return <VerficationCard meta={params as any} />;
 }

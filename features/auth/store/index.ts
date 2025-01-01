@@ -3,57 +3,39 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { User, AuthError } from "@supabase/supabase-js";
-import { fetchAuthUser, logoutUser } from "../actions";
+import { AuthError } from "@supabase/supabase-js";
+import { handleSession, logoutUser } from "../actions";
+import { AuthSessionProps } from "../types";
 
-interface ProfileStoreProps {
-  profile: User | null;
+interface SessionStoreProps extends AuthSessionProps {
   isLoading: boolean;
-  isError: AuthError | null;
-  fetchAuth: () => Promise<void>;
-  setAuth: (data: User) => void;
-  updateAuth: (data: Partial<User>) => void;
+  error: AuthError | null;
+  fetchSession: () => Promise<void>;
+  setSession: (data: AuthSessionProps) => void;
   logout: () => Promise<void>;
   removeAll: () => void;
 }
 
-const authStore = create(
-  persist<ProfileStoreProps>(
+const useAuthStore = create(
+  persist<SessionStoreProps>(
     (set, get) => ({
-      profile: null,
-      isLoading: false,
-      isError: null,
+      session: null,
+      isLoading: true,
+      error: null,
 
       /**
        * Fetch the authenticated user and update the store.
        */
-      fetchAuth: async () => {
-        set({ isLoading: true, isError: null });
-        const { user, error } = await fetchAuthUser();
-        if (error) {
-          set({ isError: error });
-        }
-        if (user) {
-          set({ profile: user });
-        }
-        set({ isLoading: false });
+      fetchSession: async () => {
+        const { session, error } = await handleSession();
+        set({ isLoading: false, error, session });
       },
 
       /**
        * Set the authenticated user manually.
        */
-      setAuth: (data: User) => {
-        set({ profile: data });
-      },
-
-      /**
-       * Update the profile data with partial updates.
-       */
-      updateAuth: (data: Partial<User>) => {
-        const currentValues = get().profile;
-        if (currentValues) {
-          set({ profile: { ...currentValues, ...data } });
-        }
+      setSession: (data) => {
+        set(data);
       },
 
       /**
@@ -71,13 +53,13 @@ const authStore = create(
       /**
        * Clear all profile data from the store.
        */
-      removeAll: () => set({ profile: null }),
+      removeAll: () => set({ session: null, error: null, isLoading: false }),
     }),
     {
-      name: "profile",
+      name: "auth-session",
       storage: createJSONStorage(() => AsyncStorage),
     },
   ),
 );
 
-export default authStore;
+export default useAuthStore;

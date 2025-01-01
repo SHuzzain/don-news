@@ -8,11 +8,11 @@ import "react-native-url-polyfill/auto";
 
 import QueryProviders from "@/components/providers/tanstack-query-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
-import { usePermissions } from "@/hooks/use-permission";
 import { colorScheme as nativewindColorScheme } from "nativewind";
 import StackHeader from "@/components/ui/stack-header";
 import { Text } from "@/components/ui/text";
 import { StatusBar } from "expo-status-bar";
+import useSession from "@/hooks/use-auth";
 
 export { ErrorBoundary } from "expo-router";
 
@@ -20,6 +20,7 @@ SplashScreen.preventAutoHideAsync();
 nativewindColorScheme.set("system");
 
 export default function RootLayout() {
+  const session = useSession();
   const [loaded] = useFonts({
     "Jakarta-Bold": require("@/assets/fonts/PlusJakartaSans-Bold.ttf"),
     "Jakarta-ExtraBold": require("@/assets/fonts/PlusJakartaSans-ExtraBold.ttf"),
@@ -38,7 +39,7 @@ export default function RootLayout() {
     }
   }, [loaded]);
 
-  if (!loaded) {
+  if (!loaded || session.isLoading) {
     return null; // Render a fallback if resources are not ready
   }
 

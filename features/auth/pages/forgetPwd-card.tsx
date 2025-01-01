@@ -30,7 +30,13 @@ export default function ForgetPwdCard() {
 
   const onSubmit = (values: z.infer<typeof forgetPwdSchema>) => {
     console.log(values);
-    router.push("/auth/verification");
+    router.push({
+      pathname: "/auth/verification",
+      params: {
+        email: values.email,
+        redirect: "/auth/(tab)/sign-in",
+      },
+    });
   };
 
   return (

@@ -16,7 +16,7 @@ import InputIcon from "@/components/ui/input/inputIcon";
 import MaterialIocs from "react-native-vector-icons/MaterialCommunityIcons";
 import InputPwf from "@/components/ui/input/input-pwd";
 import { Text } from "@/components/ui/text";
-import { handleFaceBookAuth, handleGoogleAuth } from "../../actions";
+import { handleAuth, handleSignUp } from "../../actions";
 import { signUpSchema } from "../../schema";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Mail } from "@/lib/icons/Email";
@@ -35,11 +35,19 @@ export default function SignUpCard() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof signUpSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
-    router.push("/auth/verification");
+  async function onSubmit(values: z.infer<typeof signUpSchema>) {
+    try {
+      await handleSignUp(values);
+      router.push({
+        pathname: "/auth/verification",
+        params: {
+          email: values.email,
+          redirect: "/(account-setup)",
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
   return (
     <View className="flex-1 gap-5 bg-background p-5">
@@ -169,7 +177,7 @@ export default function SignUpCard() {
             variant={"secondary"}
             className="flex flex-row items-center rounded-2xl"
             size={"lg"}
-            onPress={handleGoogleAuth}
+            onPress={() => handleAuth("google")}
           >
             <MaterialIocs name="google" color={"black"} size={24} />
             <Text className="ml-4 font-Jakarta text-black">Google</Text>
@@ -179,7 +187,7 @@ export default function SignUpCard() {
             className="flex flex-row items-center rounded-2xl"
             variant={"secondary"}
             size={"lg"}
-            onPress={handleFaceBookAuth}
+            onPress={() => handleAuth("facebook")}
           >
             <MaterialIocs name="facebook" color={"black"} size={24} />
             <Text className="ml-4 font-Jakarta text-black">Facebook</Text>

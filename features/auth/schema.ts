@@ -1,7 +1,8 @@
 import { z } from "zod";
+import { MAX_OTP_LENGTH } from "./constant";
 
 export const signInSchema = z.object({
-  email: z.string().email().min(4).max(24),
+  credential: z.string().min(4).max(20).or(z.string().email().min(4).max(24)),
   password: z.string().min(4).max(12),
 });
 
@@ -31,3 +32,7 @@ export const updatePwdSchema = z
       });
     }
   });
+
+export const verifyOtpSchema = z.object({
+  otp: z.array(z.string()).min(MAX_OTP_LENGTH),
+});

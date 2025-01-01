@@ -17,7 +17,7 @@ import MaterialIocs from "react-native-vector-icons/MaterialCommunityIcons";
 import InputPwf from "@/components/ui/input/input-pwd";
 import { signInSchema } from "../../schema";
 import { Text } from "@/components/ui/text";
-import { handleFaceBookAuth, handleGoogleAuth } from "../../actions";
+import { handleAuth, handleSignIn } from "../../actions";
 import { Mail } from "@/lib/icons/Email";
 import { Link } from "expo-router";
 import { router } from "expo-router";
@@ -27,16 +27,18 @@ export default function SignInCard() {
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
-      email: "",
+      credential: "",
       password: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof signInSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
-    router.replace("/(account-setup)");
+  async function onSubmit(values: z.infer<typeof signInSchema>) {
+    try {
+      await handleSignIn(values);
+      router.replace("/(account-setup)");
+    } catch (error) {
+      console.log(error);
+    }
   }
   return (
     <View className="flex-1 gap-5 bg-background p-5">
@@ -47,7 +49,7 @@ export default function SignInCard() {
           <View className="gap-5">
             <FormField
               control={form.control}
-              name="email"
+              name="credential"
               render={({ field, fieldState: { error } }) => (
                 <FormItem>
                   <FormControl>
@@ -112,7 +114,7 @@ export default function SignInCard() {
             variant={"secondary"}
             className="flex flex-row items-center rounded-2xl"
             size={"lg"}
-            onPress={handleGoogleAuth}
+            onPress={() => handleAuth("google")}
           >
             <MaterialIocs name="google" color={"black"} size={24} />
             <Text className="ml-4 font-Jakarta text-black">Google</Text>
@@ -122,7 +124,7 @@ export default function SignInCard() {
             className="flex flex-row items-center rounded-2xl"
             variant={"secondary"}
             size={"lg"}
-            onPress={handleFaceBookAuth}
+            onPress={() => handleAuth("facebook")}
           >
             <MaterialIocs name="facebook" color={"black"} size={24} />
             <Text className="ml-4 font-Jakarta text-black">Facebook</Text>
