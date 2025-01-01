@@ -1,8 +1,7 @@
 import { View } from "react-native";
 import React, { useRef } from "react";
 import Swiper from "react-native-swiper";
-import CityArea from "../components/setup/city-area";
-import { LocationGeocodedAddress } from "expo-location";
+import CityArea from "../components/city-area";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import SectionView from "@/components/layout/section-view";
@@ -11,14 +10,16 @@ import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import StackHeader from "@/components/ui/stack-header";
 import { router } from "expo-router";
-import Topic from "../components/setup/topic";
+import Topic from "../components/topic";
 import { setupSchema } from "../schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import NewsSources from "../components/setup/news-sources";
+import NewsSources from "../components/news-sources";
 
 type SetUpCardProps = {
-  data: LocationGeocodedAddress;
+  data: {
+    city: string;
+  };
 };
 
 export default function SetUpCard({ data }: SetUpCardProps) {
@@ -59,7 +60,7 @@ export default function SetUpCard({ data }: SetUpCardProps) {
       <Form {...form}>
         <Swiper ref={swiperRef} loop={false} showsPagination={false}>
           <SectionView className="relative flex-1 gap-5">
-            <CityArea data={data} />
+            <CityArea cityName={data.city} />
             <BlurView
               intensity={10}
               experimentalBlurMethod="dimezisBlurView"
@@ -78,7 +79,6 @@ export default function SetUpCard({ data }: SetUpCardProps) {
             <Topic />
             <BlurView
               intensity={10}
-              experimentalBlurMethod="dimezisBlurView"
               className="bottom-0 absolute justify-center px-5 w-full h-24"
             >
               <Button
@@ -94,7 +94,6 @@ export default function SetUpCard({ data }: SetUpCardProps) {
             <NewsSources />
             <BlurView
               intensity={10}
-              experimentalBlurMethod="dimezisBlurView"
               className="bottom-0 absolute justify-center px-5 w-full h-24"
             >
               <Button
@@ -110,7 +109,6 @@ export default function SetUpCard({ data }: SetUpCardProps) {
             <NewsSources />
             <BlurView
               intensity={10}
-              experimentalBlurMethod="dimezisBlurView"
               className="bottom-0 absolute justify-center px-5 w-full h-24"
             >
               <Button

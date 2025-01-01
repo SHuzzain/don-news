@@ -1,21 +1,20 @@
 import { FlatList } from "react-native";
 import React from "react";
-import { LocationGeocodedAddress } from "expo-location";
 import { H4, P } from "@/components/ui/typography";
 import InputIcon from "@/components/ui/input/inputIcon";
 import { SearchIcon } from "lucide-react-native";
 import SectionView from "@/components/layout/section-view";
-import { city } from "@/features/auth/constant";
+import { city } from "@/features/account-setup/constant";
 import CityItem from "./city-item";
 import { FormControl, FormField, FormItem } from "@/components/ui/form";
 import { useFormContext } from "react-hook-form";
-import HeadingText from "../heading-text";
+import HeadingText from "@/components/ui/heading-text";
 
 type SetUpCardProps = {
-  data: LocationGeocodedAddress;
+  cityName: string;
 };
 
-export default function CityArea({ data }: SetUpCardProps) {
+export default function CityArea({ cityName }: SetUpCardProps) {
   const form = useFormContext();
   return (
     <>
@@ -24,7 +23,7 @@ export default function CityArea({ data }: SetUpCardProps) {
           Add your Primary{"\n"}location?
         </HeadingText>
         <P className="mt-3 text-lg">
-          Discover what's happening around <H4>{data.city}</H4> and its
+          Discover what's happening around <H4>{cityName}</H4> and its
           surroundings area
         </P>
       </SectionView>
@@ -54,8 +53,8 @@ export default function CityArea({ data }: SetUpCardProps) {
         contentContainerClassName="gap-5 px-5 pb-24"
         scrollEnabled
         data={
-          Object.hasOwn(city, String(data.city).toLowerCase())
-            ? city[String(data.city).toLowerCase()]
+          Object.hasOwn(city, String(cityName).toLowerCase())
+            ? city[String(cityName).toLowerCase()]
             : []
         }
         renderItem={({ item }) => <CityItem name={item} />}

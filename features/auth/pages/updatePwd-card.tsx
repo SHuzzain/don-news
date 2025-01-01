@@ -17,7 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { router } from "expo-router";
 import InputPwf from "@/components/ui/input/input-pwd";
-import HeadingText from "../components/heading-text";
+import HeadingText from "@/components/ui/heading-text";
 
 export default function UpdatePwdCard() {
   const form = useForm<z.infer<typeof updatePwdSchema>>({

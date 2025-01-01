@@ -1,30 +1,30 @@
-import { FlatList } from "react-native";
 import React from "react";
-
-import InputIcon from "@/components/ui/input/inputIcon";
-import { SearchIcon } from "lucide-react-native";
-import SectionView from "@/components/layout/section-view";
-import { newsSourcesItems } from "@/features/auth/constant";
-import { FormControl, FormField, FormItem } from "@/components/ui/form";
+import { FlatList } from "react-native";
 import { useFormContext } from "react-hook-form";
 
-import NewsSourceItem from "./news-source-item";
-import HeadingText from "../heading-text";
+import { SearchIcon } from "lucide-react-native";
 
-export default function NewsSources() {
+import TopicItem from "./topic-item";
+
+import { topicItem } from "../constant";
+
+import InputIcon from "@/components/ui/input/inputIcon";
+import SectionView from "@/components/layout/section-view";
+import HeadingText from "@/components/ui/heading-text";
+import { FormControl, FormField, FormItem } from "@/components/ui/form";
+
+export default function Topic() {
   const form = useFormContext();
   return (
     <>
       <SectionView className="px-5">
-        <HeadingText className="text-4xl">
-          Choose your{"\n"}news sources?
-        </HeadingText>
+        <HeadingText className="text-4xl">Choose your{"\n"}topic</HeadingText>
       </SectionView>
 
-      <SectionView className="px-5">
+      <SectionView className="flex-1 px-5">
         <FormField
           control={form.control}
-          name="searchNews"
+          name="searchTopic"
           render={({ field }) => (
             <FormItem>
               <FormControl>
@@ -40,15 +40,16 @@ export default function NewsSources() {
             </FormItem>
           )}
         />
-      </SectionView>
 
-      <FlatList
-        contentContainerClassName="gap-5 px-5 pb-24"
-        scrollEnabled
-        data={newsSourcesItems}
-        renderItem={({ item }) => <NewsSourceItem {...item} />}
-        keyExtractor={(item) => item.title}
-      />
+        <FlatList
+          data={topicItem}
+          numColumns={2}
+          scrollEnabled
+          contentContainerClassName="gap-5 mt-5 pb-28"
+          keyExtractor={({ title }) => title}
+          renderItem={({ item }) => <TopicItem {...item} />}
+        />
+      </SectionView>
     </>
   );
 }

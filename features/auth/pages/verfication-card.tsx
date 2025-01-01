@@ -1,12 +1,12 @@
 import { Pressable, View } from "react-native";
 import React from "react";
-import { H1, P } from "@/components/ui/typography";
+import { P } from "@/components/ui/typography";
 import SectionView from "@/components/layout/section-view";
 import InputOTP from "@/components/ui/input/input-otp";
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import { router } from "expo-router";
-import HeadingText from "../components/heading-text";
+import HeadingText from "@/components/ui/heading-text";
 
 export default function VerficationCard() {
   return (
@@ -31,7 +31,7 @@ export default function VerficationCard() {
         </P>
 
         <Button
-          onPress={() => router.push("/auth/setup")}
+          onPress={() => router.replace("/(account-setup)")}
           className="flex flex-row items-center rounded-2xl"
           size={"lg"}
         >

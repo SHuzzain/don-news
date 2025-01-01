@@ -18,7 +18,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { router } from "expo-router";
-import HeadingText from "../components/heading-text";
+import HeadingText from "@/components/ui/heading-text";
 
 export default function ForgetPwdCard() {
   const form = useForm<z.infer<typeof forgetPwdSchema>>({

@@ -7,7 +7,7 @@ import { Text } from "@/components/ui/text";
 import { handleFaceBookAuth, handleGoogleAuth } from "../actions";
 import { router } from "expo-router";
 import { Mail } from "lucide-react-native";
-import HeadingText from "../components/heading-text";
+import HeadingText from "@/components/ui/heading-text";
 
 export default function AuthCard() {
   return (

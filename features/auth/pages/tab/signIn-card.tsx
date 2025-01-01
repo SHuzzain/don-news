@@ -1,4 +1,4 @@
-import { TouchableOpacity, View } from "react-native";
+import { View } from "react-native";
 import React from "react";
 import SectionView from "@/components/layout/section-view";
 import {
@@ -15,67 +15,36 @@ import { z } from "zod";
 import InputIcon from "@/components/ui/input/inputIcon";
 import MaterialIocs from "react-native-vector-icons/MaterialCommunityIcons";
 import InputPwf from "@/components/ui/input/input-pwd";
+import { signInSchema } from "../../schema";
 import { Text } from "@/components/ui/text";
-import { handleFaceBookAuth, handleGoogleAuth } from "../actions";
-import { signUpSchema } from "../schema";
-import { Checkbox } from "@/components/ui/checkbox";
+import { handleFaceBookAuth, handleGoogleAuth } from "../../actions";
 import { Mail } from "@/lib/icons/Email";
-import { CircleUserRound } from "@/lib/icons/Person-circle";
+import { Link } from "expo-router";
 import { router } from "expo-router";
-import HeadingText from "../components/heading-text";
+import HeadingText from "@/components/ui/heading-text";
 
-export default function SignUpCard() {
-  const form = useForm<z.infer<typeof signUpSchema>>({
-    resolver: zodResolver(signUpSchema),
+export default function SignInCard() {
+  const form = useForm<z.infer<typeof signInSchema>>({
+    resolver: zodResolver(signInSchema),
     defaultValues: {
-      username: "",
       email: "",
       password: "",
-      terms: false,
     },
   });
 
-  function onSubmit(values: z.infer<typeof signUpSchema>) {
+  function onSubmit(values: z.infer<typeof signInSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
-    router.push("/auth/verification");
+    router.replace("/(account-setup)");
   }
   return (
     <View className="flex-1 gap-5 bg-background p-5">
-      <HeadingText>Create {"\n"}an account</HeadingText>
+      <HeadingText className="mb-5">Let's Sign {"\n"}You In</HeadingText>
 
       <SectionView>
         <Form {...form}>
           <View className="gap-5">
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field, fieldState: { error } }) => (
-                <FormItem>
-                  <FormControl>
-                    <InputIcon
-                      {...field}
-                      returnKeyType="next"
-                      keyboardType="default"
-                      textContentType="username"
-                      iconPosition="right"
-                      placeholder="jhon123"
-                      isError={!!error?.message}
-                      onSubmitEditing={() => form.setFocus("email")}
-                      onChangeText={field.onChange}
-                    >
-                      <CircleUserRound
-                        color={error?.message ? "red" : "#60779a"}
-                        size={24}
-                      />
-                    </InputIcon>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
             <FormField
               control={form.control}
               name="email"
@@ -112,44 +81,18 @@ export default function SignUpCard() {
                   <FormControl>
                     <InputPwf
                       {...field}
-                      isError={!!error?.message}
                       onSubmitEditing={form.handleSubmit(onSubmit)}
                       onChangeText={field.onChange}
+                      isError={!!error?.message}
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-
-            <FormField
-              control={form.control}
-              name="terms"
-              render={({ field }) => (
-                <FormItem className="ml-2">
-                  <FormControl className="web:flex flex-row items-center gap-2">
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                      {...field}
-                    />
-                    <Text>
-                      I have read{"  "}
-                      <TouchableOpacity
-                        activeOpacity={0.6}
-                        onPress={() => router.push("/policies")}
-                        className="mt-0.5"
-                      >
-                        <Text className="font-JakartaBold text-primary">
-                          term & Aggreenment
-                        </Text>
-                      </TouchableOpacity>
-                    </Text>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <Link push href={"/auth/forget-pwd"} className="ml-1 text-gray-500">
+              forget password?
+            </Link>
           </View>
         </Form>
       </SectionView>
@@ -160,10 +103,10 @@ export default function SignUpCard() {
           className="flex flex-row items-center rounded-2xl"
           size={"lg"}
         >
-          <Text>Sign Up</Text>
+          <Text>Sign In</Text>
         </Button>
 
-        <Text className="my-5 text-center">Or sign up with</Text>
+        <Text className="my-5 text-center">Or sign in with</Text>
         <View className="web:flex flex-row gap-5">
           <Button
             variant={"secondary"}

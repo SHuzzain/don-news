@@ -6,7 +6,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils/tw-class";
 import { Text } from "@/components/ui/text";
 import { z } from "zod";
-import { setupSchema } from "../../schema";
+import { setupSchema } from "../schema";
 
 interface NewsSourceItemProps {
   title: string;

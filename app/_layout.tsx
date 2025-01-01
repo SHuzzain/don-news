@@ -30,15 +30,15 @@ export default function RootLayout() {
     "Jakarta-SemiBold": require("@/assets/fonts/PlusJakartaSans-SemiBold.ttf"),
   });
 
-  const permissionsGranted = usePermissions();
+  // const permissionsGranted = usePermissions();
 
   React.useEffect(() => {
-    if (loaded && permissionsGranted) {
+    if (loaded) {
       SplashScreen.hideAsync();
     }
-  }, [loaded, permissionsGranted]);
+  }, [loaded]);
 
-  if (!loaded || !permissionsGranted) {
+  if (!loaded) {
     return null; // Render a fallback if resources are not ready
   }
 
@@ -48,6 +48,13 @@ export default function RootLayout() {
         <Stack>
           <Stack.Screen name="index" options={{ headerShown: false }} />
           <Stack.Screen name="auth" options={{ headerShown: false }} />
+
+          <Stack.Screen
+            name="(account-setup)"
+            options={{
+              headerShown: false,
+            }}
+          />
 
           <Stack.Screen
             name="onboarding/index"

@@ -37,7 +37,6 @@ export default function AuthRootLayout() {
             header: () => <StackHeader />,
           }}
         />
-        <Stack.Screen name="setup" options={{ headerShown: false }} />
 
         <Stack.Screen
           name="(tab)"
