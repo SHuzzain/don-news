@@ -1,7 +1,7 @@
 import React from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { Stack } from "expo-router";
+import { Redirect, Stack } from "expo-router";
 import "react-native-reanimated";
 import "../global.css";
 import "react-native-url-polyfill/auto";
@@ -13,6 +13,7 @@ import StackHeader from "@/components/ui/stack-header";
 import { Text } from "@/components/ui/text";
 import { StatusBar } from "expo-status-bar";
 import useSession from "@/hooks/use-auth";
+import { Spinner } from "@/components/ui/loading";
 
 export { ErrorBoundary } from "expo-router";
 
@@ -40,7 +41,11 @@ export default function RootLayout() {
   }, [loaded]);
 
   if (!loaded || session.isLoading) {
-    return null; // Render a fallback if resources are not ready
+    return <Spinner className="text-red-300" />;
+  }
+
+  if (!session.session) {
+    return <Redirect href={"/onboarding"} />;
   }
 
   return (

@@ -4,4 +4,6 @@ export const setupSchema = z.object({
   topics: z.array(z.string()).optional().default([]),
   primaryArea: z.string().optional().default(""),
   newsSources: z.array(z.string()).default([]),
+  avatar: z.string().url().default(""),
+  nickname: z.string().min(3).max(12).optional(),
 });

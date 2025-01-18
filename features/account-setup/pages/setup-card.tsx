@@ -15,6 +15,7 @@ import { setupSchema } from "../schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import NewsSources from "../components/news-sources";
+import SubmitForm from "../components/submit-form";
 
 type SetUpCardProps = {
   data: {
@@ -30,6 +31,8 @@ export default function SetUpCard({ data }: SetUpCardProps) {
       newsSources: [],
       primaryArea: "",
       topics: [],
+      avatar: "",
+      nickname: "",
     },
   });
 
@@ -56,7 +59,7 @@ export default function SetUpCard({ data }: SetUpCardProps) {
 
   return (
     <View className="flex-1 gap-5 bg-background">
-      <StackHeader callBack={handleBack} skip={"/(with-auth)/home"} />
+      <StackHeader callBack={handleBack} />
       <Form {...form}>
         <Swiper ref={swiperRef} loop={false} showsPagination={false}>
           <SectionView className="relative flex-1 gap-5">
@@ -97,7 +100,7 @@ export default function SetUpCard({ data }: SetUpCardProps) {
               className="bottom-0 absolute justify-center px-5 w-full h-24"
             >
               <Button
-                onPress={() => swiperRef.current?.scrollTo(0)}
+                onPress={() => swiperRef.current?.scrollTo(3)}
                 className="rounded-2xl"
               >
                 <Text className="text-white">Next</Text>
@@ -106,16 +109,16 @@ export default function SetUpCard({ data }: SetUpCardProps) {
           </SectionView>
 
           <SectionView className="relative flex-1 gap-5">
-            <NewsSources />
+            <SubmitForm />
             <BlurView
               intensity={10}
               className="bottom-0 absolute justify-center px-5 w-full h-24"
             >
               <Button
-                onPress={() => swiperRef.current?.scrollTo(1)}
+                onPress={form.handleSubmit(onSubmit)}
                 className="rounded-2xl"
               >
-                <Text className="text-white">Next</Text>
+                <Text className="text-white">Sumbit</Text>
               </Button>
             </BlurView>
           </SectionView>

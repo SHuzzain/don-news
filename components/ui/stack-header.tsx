@@ -32,7 +32,7 @@ const StackHeader: React.FC<StackHeaderProps> = ({
   };
 
   const handleSkipPress = () => {
-    if (skip) router.push(skip);
+    if (skip) router.replace(skip);
   };
 
   return (
