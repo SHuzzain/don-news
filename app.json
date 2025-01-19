@@ -36,21 +36,18 @@
           "backgroundColor": "#ffffff"
         }
       ],
-
       [
         "expo-location",
         {
           "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
         }
       ],
-
       [
         "expo-image-picker",
         {
           "photosPermission": "Allow $(PRODUCT_NAME) to access your photos"
         }
       ],
-
       [
         "expo-media-library",
         {
@@ -58,8 +55,8 @@
           "savePhotosPermission": "Allow $(PRODUCT_NAME) to save photos.",
           "isAccessMediaLocationEnabled": true
         }
-      ]
-
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true

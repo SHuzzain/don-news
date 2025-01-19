@@ -7,13 +7,19 @@ import { cn } from "@/lib/utils/tw-class";
 import { Text } from "@/components/ui/text";
 import { z } from "zod";
 import { setupSchema } from "../schema";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface TopicItemProps {
   title: string;
-  image: any;
+  image_url: any;
+  loading?: boolean;
 }
 
-export default function TopicItem({ title, image }: TopicItemProps) {
+export default function TopicItem({
+  title,
+  image_url,
+  loading = false,
+}: TopicItemProps) {
   const form = useFormContext<z.infer<typeof setupSchema>>();
 
   // Update topics based on selection
@@ -39,30 +45,38 @@ export default function TopicItem({ title, image }: TopicItemProps) {
             )}
           >
             <FormControl className="size-full">
-              <Pressable
-                onPress={() => field.onChange(updateTopics(title, !isSelected))}
-                className=""
-              >
-                <ImageBackground
-                  source={image}
-                  className={cn(
-                    "p-5 justify-between size-full  items-start",
-                    isSelected ? "bg-vogue" : "bg-secondary",
-                  )}
+              {loading ? (
+                <Skeleton className="size-full" />
+              ) : (
+                <Pressable
+                  onPress={() =>
+                    field.onChange(updateTopics(title, !isSelected))
+                  }
+                  className=""
                 >
-                  <Checkbox
-                    ref={field.ref}
-                    checked={isSelected}
-                    onCheckedChange={(isChecked) =>
-                      field.onChange(updateTopics(title, isChecked))
-                    }
-                    className="self-end"
-                  />
-                  <Text className="font-JakartaExtraBold text-white text-xl">
-                    {title}
-                  </Text>
-                </ImageBackground>
-              </Pressable>
+                  <ImageBackground
+                    source={{
+                      uri: image_url,
+                    }}
+                    className={cn(
+                      "p-5 justify-between size-full  items-start",
+                      isSelected ? "bg-vogue" : "bg-secondary",
+                    )}
+                  >
+                    <Checkbox
+                      ref={field.ref}
+                      checked={isSelected}
+                      onCheckedChange={(isChecked) =>
+                        field.onChange(updateTopics(title, isChecked))
+                      }
+                      className="self-end"
+                    />
+                    <Text className="font-JakartaExtraBold text-lg text-white capitalize">
+                      {title}
+                    </Text>
+                  </ImageBackground>
+                </Pressable>
+              )}
             </FormControl>
           </FormItem>
         );

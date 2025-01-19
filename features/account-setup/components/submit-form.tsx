@@ -9,7 +9,7 @@ import { useImagePicker } from "@/hooks/use-image-picker";
 import useSession from "@/hooks/use-auth";
 import { FormControl, FormField, FormItem } from "@/components/ui/form";
 import InputIcon from "@/components/ui/input/inputIcon";
-import { PlusIcon, VenetianMask } from "lucide-react-native";
+import { PlusIcon, UserCircle } from "lucide-react-native";
 import { useFormContext } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { z } from "zod";
@@ -74,18 +74,18 @@ const SubmitForm = () => {
       <SectionView className="px-5">
         <FormField
           control={form.control}
-          name="nickname"
+          name="username"
           render={({ field }) => (
             <FormItem>
               <FormControl>
                 <InputIcon
                   returnKeyType="done"
                   iconPosition="right"
-                  placeholder="Nick Name"
+                  placeholder="Jhon"
                   {...field}
                   onChangeText={field.onChange}
                 >
-                  <VenetianMask size={24} color={"#60779a"} />
+                  <UserCircle size={24} color={"#60779a"} />
                 </InputIcon>
               </FormControl>
             </FormItem>

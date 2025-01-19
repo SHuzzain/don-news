@@ -51,6 +51,8 @@ export const handleAuth = async (provider: "google" | "facebook") => {
       redirectTo,
     );
 
+    console.log({ res });
+
     if (res.type === "success" && res.url) {
       await createSessionFromUrl(res.url);
     }
@@ -85,11 +87,6 @@ export const handleSignUp = async (values: z.infer<typeof signUpSchema>) => {
   const response = await supabase.auth.signUp({
     email: data.email,
     password: data.password,
-    options: {
-      data: {
-        username: data.username,
-      },
-    },
   });
   if (response.error) {
     throw response.error.message;

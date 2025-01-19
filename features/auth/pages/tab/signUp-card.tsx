@@ -20,15 +20,13 @@ import { handleAuth, handleSignUp } from "../../actions";
 import { signUpSchema } from "../../schema";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Mail } from "@/lib/icons/Email";
-import { CircleUserRound } from "@/lib/icons/Person-circle";
-import { router } from "expo-router";
 import HeadingText from "@/components/ui/heading-text";
+import { router } from "expo-router";
 
 export default function SignUpCard() {
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      username: "",
       email: "",
       password: "",
       terms: false,
@@ -56,34 +54,6 @@ export default function SignUpCard() {
       <SectionView>
         <Form {...form}>
           <View className="gap-5">
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field, fieldState: { error } }) => (
-                <FormItem>
-                  <FormControl>
-                    <InputIcon
-                      {...field}
-                      returnKeyType="next"
-                      keyboardType="default"
-                      textContentType="username"
-                      iconPosition="right"
-                      placeholder="jhon123"
-                      isError={!!error?.message}
-                      onSubmitEditing={() => form.setFocus("email")}
-                      onChangeText={field.onChange}
-                    >
-                      <CircleUserRound
-                        color={error?.message ? "red" : "#60779a"}
-                        size={24}
-                      />
-                    </InputIcon>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
             <FormField
               control={form.control}
               name="email"

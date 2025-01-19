@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
-import { Alert, AppState } from "react-native";
 import * as Location from "expo-location";
-import * as ImagePicker from "expo-image-picker";
 
 export const usePermissions = () => {
   const [permissionsGranted, setPermissionsGranted] = useState(false);
@@ -11,20 +9,6 @@ export const usePermissions = () => {
       const { status: locationStatus } =
         await Location.requestForegroundPermissionsAsync();
       if (locationStatus !== "granted") {
-        Alert.alert(
-          "Permission Required",
-          "Location access is required for this app.",
-        );
-        return false;
-      }
-
-      const { status: galleryStatus } =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (galleryStatus !== "granted") {
-        Alert.alert(
-          "Permission Required",
-          "Gallery access is required for this app.",
-        );
         return false;
       }
 
@@ -42,15 +26,6 @@ export const usePermissions = () => {
     };
 
     checkPermissions();
-
-    const subscription = AppState.addEventListener("change", async (state) => {
-      if (state === "active") {
-        const granted = await requestPermissions();
-        setPermissionsGranted(granted);
-      }
-    });
-
-    return () => subscription.remove();
   }, []);
 
   return permissionsGranted;

@@ -16,6 +16,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import NewsSources from "../components/news-sources";
 import SubmitForm from "../components/submit-form";
+import { accountSetUp } from "../action";
+import useAuthStore from "@/features/auth/store";
 
 type SetUpCardProps = {
   data: {
@@ -32,14 +34,19 @@ export default function SetUpCard({ data }: SetUpCardProps) {
       primaryArea: "",
       topics: [],
       avatar: "",
-      nickname: "",
+      username: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof setupSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  const { session } = useAuthStore();
+
+  async function onSubmit(values: z.infer<typeof setupSchema>) {
+    if (!session?.user) return false;
+
+    const success = await accountSetUp(values, session?.user);
+    if (success) {
+      router.reload();
+    }
   }
 
   const handleBack = () => {

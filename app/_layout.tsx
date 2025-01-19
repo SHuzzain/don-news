@@ -1,7 +1,7 @@
 import React from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { Redirect, Stack } from "expo-router";
+import { Redirect, Slot, Stack } from "expo-router";
 import "react-native-reanimated";
 import "../global.css";
 import "react-native-url-polyfill/auto";
@@ -14,8 +14,6 @@ import { Text } from "@/components/ui/text";
 import { StatusBar } from "expo-status-bar";
 import useSession from "@/hooks/use-auth";
 import { Spinner } from "@/components/ui/loading";
-
-export { ErrorBoundary } from "expo-router";
 
 SplashScreen.preventAutoHideAsync();
 nativewindColorScheme.set("system");
@@ -32,8 +30,6 @@ export default function RootLayout() {
     "Jakarta-SemiBold": require("@/assets/fonts/PlusJakartaSans-SemiBold.ttf"),
   });
 
-  // const permissionsGranted = usePermissions();
-
   React.useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
@@ -42,10 +38,6 @@ export default function RootLayout() {
 
   if (!loaded || session.isLoading) {
     return <Spinner className="text-red-300" />;
-  }
-
-  if (!session.session) {
-    return <Redirect href={"/onboarding"} />;
   }
 
   return (

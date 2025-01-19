@@ -6,15 +6,21 @@ import { SearchIcon } from "lucide-react-native";
 
 import TopicItem from "./topic-item";
 
-import { topicItem } from "../constant";
-
 import InputIcon from "@/components/ui/input/inputIcon";
 import SectionView from "@/components/layout/section-view";
 import HeadingText from "@/components/ui/heading-text";
 import { FormControl, FormField, FormItem } from "@/components/ui/form";
+import { useQuery } from "@tanstack/react-query";
+import { getCategories } from "../action";
 
 export default function Topic() {
   const form = useFormContext();
+  const { data, isFetching } = useQuery({
+    queryKey: ["categories"],
+    queryFn: getCategories,
+    initialData: [...Array(5)].map((_, index) => ({ id: index })),
+  });
+
   return (
     <>
       <SectionView className="px-5">
@@ -42,12 +48,14 @@ export default function Topic() {
         />
 
         <FlatList
-          data={topicItem}
+          data={data}
           numColumns={2}
           scrollEnabled
           contentContainerClassName="gap-5 mt-5 pb-28"
-          keyExtractor={({ title }) => title}
-          renderItem={({ item }) => <TopicItem {...item} />}
+          keyExtractor={({ id }) => id}
+          renderItem={({ item }) => (
+            <TopicItem {...item} loading={isFetching} />
+          )}
         />
       </SectionView>
     </>
