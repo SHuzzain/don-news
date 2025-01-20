@@ -8,7 +8,6 @@ import {
 } from "@/actions/location-fn";
 import { SplashScreen } from "expo-router";
 import { Spinner } from "@/components/ui/loading";
-import { Text } from "@/components/ui/text";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -36,10 +35,10 @@ export default function SetUpScreen() {
     }
 
     if (data) {
-      return <SetUpCard data={{ city: "periyapattinam" }} />;
+      return <SetUpCard />;
     } else {
       handlePermissionError();
-      return <Text>hello</Text>;
+      return null;
     }
   }
 

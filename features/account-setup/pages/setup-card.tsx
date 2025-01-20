@@ -16,16 +16,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import NewsSources from "../components/news-sources";
 import SubmitForm from "../components/submit-form";
-import { accountSetUp } from "../action";
-import useAuthStore from "@/features/auth/store";
+import { accountSetUp, getCityName } from "../action";
+import useSession from "@/hooks/use-auth";
+import { useQuery } from "@tanstack/react-query";
+import { Spinner } from "@/components/ui/loading";
 
-type SetUpCardProps = {
-  data: {
-    city: string;
-  };
-};
-
-export default function SetUpCard({ data }: SetUpCardProps) {
+export default function SetUpCard() {
   const swiperRef = useRef<Swiper>(null);
   const form = useForm<z.infer<typeof setupSchema>>({
     resolver: zodResolver(setupSchema),
@@ -37,8 +33,12 @@ export default function SetUpCard({ data }: SetUpCardProps) {
       username: "",
     },
   });
+  const { session } = useSession();
 
-  const { session } = useAuthStore();
+  const { data, isFetching } = useQuery({
+    queryKey: ["get-geolocation"],
+    queryFn: getCityName,
+  });
 
   async function onSubmit(values: z.infer<typeof setupSchema>) {
     if (!session?.user) return false;
@@ -64,13 +64,17 @@ export default function SetUpCard({ data }: SetUpCardProps) {
     }
   };
 
+  if (isFetching) {
+    return <Spinner className="text-red-300" />;
+  }
+
   return (
     <View className="flex-1 gap-5 bg-background">
       <StackHeader callBack={handleBack} />
       <Form {...form}>
         <Swiper ref={swiperRef} loop={false} showsPagination={false}>
           <SectionView className="relative flex-1 gap-5">
-            <CityArea cityName={data.city} />
+            <CityArea cityName={data?.city ?? null} />
             <BlurView
               intensity={10}
               experimentalBlurMethod="dimezisBlurView"
@@ -89,6 +93,7 @@ export default function SetUpCard({ data }: SetUpCardProps) {
             <Topic />
             <BlurView
               intensity={10}
+              experimentalBlurMethod="dimezisBlurView"
               className="bottom-0 absolute justify-center px-5 w-full h-24"
             >
               <Button
@@ -104,6 +109,7 @@ export default function SetUpCard({ data }: SetUpCardProps) {
             <NewsSources />
             <BlurView
               intensity={10}
+              experimentalBlurMethod="dimezisBlurView"
               className="bottom-0 absolute justify-center px-5 w-full h-24"
             >
               <Button

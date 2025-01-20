@@ -1,3 +1,4 @@
+import env from "@/config/env";
 import * as Location from "expo-location";
 import { Alert, BackHandler, Linking, Platform } from "react-native";
 
@@ -45,4 +46,24 @@ export const handlePermissionError = () => {
     ],
     { cancelable: false },
   );
+};
+
+export const getLocationInfo = async () => {
+  let { coords } = await Location.getCurrentPositionAsync({
+    accuracy: Location.Accuracy.High,
+  });
+
+  if (coords) {
+    const { latitude, longitude } = coords;
+    const response = await fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${env.GOOGLE_MAP_KEY}`,
+    );
+    const data = await response.json();
+    if (data.status === "OK") {
+      return data;
+    } else {
+      Alert.alert("Error", "Failed to fetch district name.");
+    }
+  }
+  return null;
 };

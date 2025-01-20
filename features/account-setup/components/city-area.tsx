@@ -9,12 +9,18 @@ import CityItem from "./city-item";
 import { FormControl, FormField, FormItem } from "@/components/ui/form";
 import { useFormContext } from "react-hook-form";
 import HeadingText from "@/components/ui/heading-text";
+import { useQuery } from "@tanstack/react-query";
+import { getLocalCity } from "../action";
 
 type SetUpCardProps = {
-  cityName: string;
+  cityName: string | null;
 };
 
 export default function CityArea({ cityName }: SetUpCardProps) {
+  const { data, isFetching, isFetched } = useQuery({
+    queryKey: ["local_street"],
+    queryFn: getLocalCity,
+  });
   const form = useFormContext();
   return (
     <>
