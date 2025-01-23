@@ -51,8 +51,6 @@ export const handleAuth = async (provider: "google" | "facebook") => {
       redirectTo,
     );
 
-    console.log({ res });
-
     if (res.type === "success" && res.url) {
       await createSessionFromUrl(res.url);
     }
@@ -74,7 +72,6 @@ export const handleSignIn = async (values: z.infer<typeof signInSchema>) => {
   if (checkHasAccount.error) {
     throw checkHasAccount.error;
   }
-  console.log({ checkHasAccount });
 };
 
 /**

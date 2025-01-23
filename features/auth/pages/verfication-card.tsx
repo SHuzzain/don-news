@@ -47,7 +47,7 @@ export default function VerficationCard({ meta }: VerficationCardProps) {
       console.log("OTP Submission Success:", data);
       await router.replace(meta.redirect);
     } catch (error) {
-      console.log("OTP_ERROR", error);
+      console.error("OTP_ERROR", error);
     }
   }
 

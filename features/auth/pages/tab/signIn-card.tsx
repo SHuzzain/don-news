@@ -37,7 +37,7 @@ export default function SignInCard() {
       await handleSignIn(values);
       router.replace("/(account-setup)");
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
   return (

@@ -1,6 +1,7 @@
 import env from "@/config/env";
 import * as Location from "expo-location";
 import { Alert, BackHandler, Linking, Platform } from "react-native";
+import axios from "axios";
 
 export const requestPermissions = async () => {
   try {
@@ -49,21 +50,19 @@ export const handlePermissionError = () => {
 };
 
 export const getLocationInfo = async () => {
-  let { coords } = await Location.getCurrentPositionAsync({
-    accuracy: Location.Accuracy.High,
-  });
-
-  if (coords) {
-    const { latitude, longitude } = coords;
-    const response = await fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${env.GOOGLE_MAP_KEY}`,
+  try {
+    const response = await axios(
+      `https://api.geoapify.com/v1/ipinfo?apiKey=${env.API_KEY}`,
     );
-    const data = await response.json();
-    if (data.status === "OK") {
-      return data;
+    if (response.status === 200) {
+      console.log({ response: response.data });
+      return response.data;
     } else {
       Alert.alert("Error", "Failed to fetch district name.");
     }
+    return null;
+  } catch (e) {
+    console.error("Error fetching location info:", e);
+    return null;
   }
-  return null;
 };
