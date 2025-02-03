@@ -7,7 +7,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils/tw-class";
 import SectionView from "@/components/layout/section-view";
 
-export default function CityItem({ name }: { name: string }) {
+export default function CityItem(props: { name: string }) {
+  const { name } = props;
   const form = useFormContext();
   return (
     <FormField
@@ -16,11 +17,11 @@ export default function CityItem({ name }: { name: string }) {
       render={({ field }) => (
         <FormItem>
           <FormControl>
-            <Pressable onPress={() => field.onChange(name)}>
+            <Pressable onPress={() => field.onChange(props)}>
               <View
                 className={cn(
                   "flex-1 rounded-3xl h-20 flex-row px-5 items-center justify-between",
-                  field.value === name ? "bg-vogue" : "bg-secondary",
+                  field.value?.name === name ? "bg-vogue" : "bg-secondary",
                 )}
               >
                 <SectionView className="flex flex-row items-center gap-5">
@@ -32,7 +33,7 @@ export default function CityItem({ name }: { name: string }) {
 
                   <Text
                     className={cn(
-                      field.value === name ? "text-white" : "text-black",
+                      field.value?.name === name ? "text-white" : "text-black",
                       "text-lg",
                     )}
                   >
@@ -42,8 +43,8 @@ export default function CityItem({ name }: { name: string }) {
 
                 <SectionView>
                   <Checkbox
-                    checked={field.value === name}
-                    onCheckedChange={() => field.onChange(name)}
+                    checked={field.value?.name === name}
+                    onCheckedChange={() => field.onChange(props)}
                     {...field}
                   />
                 </SectionView>

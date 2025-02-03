@@ -2,26 +2,42 @@ import { FlatList } from "react-native";
 import React from "react";
 import { H4, P } from "@/components/ui/typography";
 import InputIcon from "@/components/ui/input/inputIcon";
-import { SearchIcon } from "lucide-react-native";
 import SectionView from "@/components/layout/section-view";
-import { city } from "@/features/account-setup/constant";
 import CityItem from "./city-item";
 import { FormControl, FormField, FormItem } from "@/components/ui/form";
 import { useFormContext } from "react-hook-form";
 import HeadingText from "@/components/ui/heading-text";
-import { useQuery } from "@tanstack/react-query";
-import { getLocalCity } from "../action";
+import { useLocationScrollQuery } from "@/hooks/use-location";
+import { Skeleton } from "@/components/ui/skeleton";
+import { View } from "react-native";
+import { SearchIcon } from "lucide-react-native";
 
 type SetUpCardProps = {
-  cityName: string | null;
+  info?: {
+    city: {
+      name: string;
+    };
+    location: {
+      latitude: number;
+      longitude: number;
+    };
+  };
 };
 
-export default function CityArea({ cityName }: SetUpCardProps) {
-  const { data, isFetching, isFetched } = useQuery({
-    queryKey: ["local_street"],
-    queryFn: getLocalCity,
-  });
+export default function CityArea({ info }: SetUpCardProps) {
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useLocationScrollQuery({
+      queryKey: "get-local-city",
+      lat: info?.location.latitude ?? NaN,
+      lng: info?.location.longitude ?? NaN,
+      query: `neighborhoods near area`,
+      type: "sublocality_level_1",
+    });
   const form = useFormContext();
+  console.log(
+    { data: data?.pages?.flatMap((page) => page.results), hasNextPage },
+    "ss",
+  );
   return (
     <>
       <SectionView className="px-5">
@@ -29,8 +45,8 @@ export default function CityArea({ cityName }: SetUpCardProps) {
           Add your Primary{"\n"}location?
         </HeadingText>
         <P className="mt-3 text-lg">
-          Discover what's happening around <H4>{cityName}</H4> and its
-          surroundings area
+          Discover what's happening around <H4>{info?.city.name ?? ""}</H4> and
+          its surroundings area
         </P>
       </SectionView>
 
@@ -58,13 +74,24 @@ export default function CityArea({ cityName }: SetUpCardProps) {
       <FlatList
         contentContainerClassName="gap-5 px-5 pb-24"
         scrollEnabled
-        data={
-          Object.hasOwn(city, String(cityName).toLowerCase())
-            ? city[String(cityName).toLowerCase()]
-            : []
+        data={data?.pages?.flatMap((page) => page.results) ?? []}
+        renderItem={({ item }) => <CityItem {...item} />}
+        keyExtractor={(item, index) => `${item.place_id}-${index}-${item.name}`}
+        onEndReached={() => hasNextPage && fetchNextPage()}
+        onEndReachedThreshold={0.2}
+        ListFooterComponent={() =>
+          hasNextPage ? (
+            <>
+              {isFetchingNextPage && (
+                <View className="gap-5">
+                  {[...Array(6)].map((_, index) => (
+                    <Skeleton key={index} className="rounded-3xl h-20" />
+                  ))}
+                </View>
+              )}
+            </>
+          ) : null
         }
-        renderItem={({ item }) => <CityItem name={item} />}
-        keyExtractor={(item) => item}
       />
     </>
   );

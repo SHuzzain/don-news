@@ -13,12 +13,14 @@ interface TopicItemProps {
   title: string;
   image_url: any;
   loading?: boolean;
+  id: string;
 }
 
 export default function TopicItem({
   title,
   image_url,
   loading = false,
+  id,
 }: TopicItemProps) {
   const form = useFormContext<z.infer<typeof setupSchema>>();
 
@@ -29,13 +31,12 @@ export default function TopicItem({
       ? [...currentTopics, value]
       : currentTopics.filter((topic) => topic !== value);
   };
-
   return (
     <FormField
       control={form.control}
       name="topics"
       render={({ field }) => {
-        const isSelected = field.value.includes(title);
+        const isSelected = field.value.includes(id);
 
         return (
           <FormItem
@@ -49,10 +50,7 @@ export default function TopicItem({
                 <Skeleton className="size-full" />
               ) : (
                 <Pressable
-                  onPress={() =>
-                    field.onChange(updateTopics(title, !isSelected))
-                  }
-                  className=""
+                  onPress={() => field.onChange(updateTopics(id, !isSelected))}
                 >
                   <ImageBackground
                     source={{
@@ -67,7 +65,7 @@ export default function TopicItem({
                       ref={field.ref}
                       checked={isSelected}
                       onCheckedChange={(isChecked) =>
-                        field.onChange(updateTopics(title, isChecked))
+                        field.onChange(updateTopics(id, isChecked))
                       }
                       className="self-end"
                     />

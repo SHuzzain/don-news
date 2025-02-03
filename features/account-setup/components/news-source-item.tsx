@@ -7,16 +7,23 @@ import { cn } from "@/lib/utils/tw-class";
 import { Text } from "@/components/ui/text";
 import { z } from "zod";
 import { setupSchema } from "../schema";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface NewsSourceItemProps {
-  title: string;
-  image: any;
+  name: string;
+  image_url: any;
+  loading: boolean;
+  id: string;
 }
 
-export default function NewsSourceItem({ title, image }: NewsSourceItemProps) {
+export default function NewsSourceItem({
+  name,
+  image_url,
+  loading,
+  id,
+}: NewsSourceItemProps) {
   const form = useFormContext<z.infer<typeof setupSchema>>();
 
-  // Update topics based on selection
   const updateTopics = (value: string, isChecked: boolean) => {
     const currentTopics = form.getValues("newsSources") as string[];
     return isChecked
@@ -29,7 +36,7 @@ export default function NewsSourceItem({ title, image }: NewsSourceItemProps) {
       control={form.control}
       name="newsSources"
       render={({ field }) => {
-        const isSelected = field.value.includes(title);
+        const isSelected = field.value.includes(id);
 
         return (
           <FormItem
@@ -38,32 +45,37 @@ export default function NewsSourceItem({ title, image }: NewsSourceItemProps) {
               isSelected ? "border-primary" : "border-white",
             )}
           >
-            <FormControl className="size-full">
-              <Pressable
-                onPress={() => field.onChange(updateTopics(title, !isSelected))}
-                className=""
-              >
-                <ImageBackground
-                  source={image}
-                  className={cn(
-                    "p-5 justify-between size-full  items-start",
-                    isSelected ? "bg-vogue" : "bg-secondary",
-                  )}
+            {loading ? (
+              <Skeleton className="size-full" />
+            ) : (
+              <FormControl className="size-full">
+                <Pressable
+                  onPress={() => field.onChange(updateTopics(id, !isSelected))}
                 >
-                  <Checkbox
-                    ref={field.ref}
-                    checked={isSelected}
-                    onCheckedChange={(isChecked) =>
-                      field.onChange(updateTopics(title, isChecked))
-                    }
-                    className="self-end"
-                  />
-                  <Text className="font-JakartaExtraBold text-white text-xl">
-                    {title}
-                  </Text>
-                </ImageBackground>
-              </Pressable>
-            </FormControl>
+                  <ImageBackground
+                    source={{
+                      uri: image_url,
+                    }}
+                    className={cn(
+                      "p-5 justify-between size-full  items-start",
+                      isSelected ? "bg-vogue" : "bg-secondary",
+                    )}
+                  >
+                    <Checkbox
+                      ref={field.ref}
+                      checked={isSelected}
+                      onCheckedChange={(isChecked) =>
+                        field.onChange(updateTopics(id, isChecked))
+                      }
+                      className="self-end"
+                    />
+                    <Text className="font-JakartaExtraBold text-white text-xl">
+                      {name}
+                    </Text>
+                  </ImageBackground>
+                </Pressable>
+              </FormControl>
+            )}
           </FormItem>
         );
       }}

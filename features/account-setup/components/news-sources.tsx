@@ -10,9 +10,18 @@ import { useFormContext } from "react-hook-form";
 
 import NewsSourceItem from "./news-source-item";
 import HeadingText from "@/components/ui/heading-text";
+import { getNewSource } from "../action";
+import { useQuery } from "@tanstack/react-query";
 
 export default function NewsSources() {
   const form = useFormContext();
+
+  const { data, isFetching } = useQuery({
+    queryKey: ["new-source"],
+    queryFn: getNewSource,
+    initialData: [...Array(4)].map((_, index) => ({ id: index })),
+  });
+  console.log({ data });
   return (
     <>
       <SectionView className="px-5">
@@ -45,9 +54,12 @@ export default function NewsSources() {
       <FlatList
         contentContainerClassName="gap-5 px-5 pb-24"
         scrollEnabled
-        data={newsSourcesItems}
-        renderItem={({ item }) => <NewsSourceItem {...item} />}
-        keyExtractor={(item) => item.title}
+        data={data}
+        numColumns={2}
+        keyExtractor={({ id }) => id}
+        renderItem={({ item }) => (
+          <NewsSourceItem {...item} loading={isFetching} />
+        )}
       />
     </>
   );

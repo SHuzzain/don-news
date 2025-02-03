@@ -55,7 +55,6 @@ export const getLocationInfo = async () => {
       `https://api.geoapify.com/v1/ipinfo?apiKey=${env.API_KEY}`,
     );
     if (response.status === 200) {
-      console.log({ response: response.data });
       return response.data;
     } else {
       Alert.alert("Error", "Failed to fetch district name.");

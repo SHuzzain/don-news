@@ -1,7 +1,6 @@
 import { View } from "react-native";
 import React, { useRef } from "react";
 import Swiper from "react-native-swiper";
-import CityArea from "../components/city-area";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import SectionView from "@/components/layout/section-view";
@@ -16,10 +15,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import NewsSources from "../components/news-sources";
 import SubmitForm from "../components/submit-form";
-import { accountSetUp, getCityName } from "../action";
+import { accountSetUp } from "../action";
 import useSession from "@/hooks/use-auth";
-import { useQuery } from "@tanstack/react-query";
-import { Spinner } from "@/components/ui/loading";
 
 export default function SetUpCard() {
   const swiperRef = useRef<Swiper>(null);
@@ -27,18 +24,12 @@ export default function SetUpCard() {
     resolver: zodResolver(setupSchema),
     defaultValues: {
       newsSources: [],
-      primaryArea: "",
       topics: [],
       avatar: "",
       username: "",
     },
   });
   const { session } = useSession();
-
-  const { data, isFetching } = useQuery({
-    queryKey: ["get-geolocation"],
-    queryFn: getCityName,
-  });
 
   async function onSubmit(values: z.infer<typeof setupSchema>) {
     if (!session?.user) return false;
@@ -64,17 +55,13 @@ export default function SetUpCard() {
     }
   };
 
-  if (isFetching) {
-    return <Spinner className="text-red-300" />;
-  }
-
   return (
     <View className="flex-1 gap-5 bg-background">
       <StackHeader callBack={handleBack} />
       <Form {...form}>
         <Swiper ref={swiperRef} loop={false} showsPagination={false}>
-          <SectionView className="relative flex-1 gap-5">
-            <CityArea cityName={data?.city ?? null} />
+          {/* <SectionView className="relative flex-1 gap-5">
+            <CityArea info={data ?? null} />
             <BlurView
               intensity={10}
               experimentalBlurMethod="dimezisBlurView"
@@ -87,7 +74,7 @@ export default function SetUpCard() {
                 <Text className="text-white">Next</Text>
               </Button>
             </BlurView>
-          </SectionView>
+          </SectionView> */}
 
           <SectionView className="relative flex-1 gap-5">
             <Topic />

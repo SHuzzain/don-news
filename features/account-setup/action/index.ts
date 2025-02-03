@@ -17,8 +17,8 @@ export const accountSetUp = async (
         email: user.email,
         username: values.username,
         avatar_url: values.avatar,
-        primary_location: values.primaryArea,
         categories: values.topics,
+        sources: values.newsSources,
         initial_setup: true,
       })
       .eq("id", user.id);
@@ -43,6 +43,21 @@ export const getCategories = async () => {
   }
 };
 
+export const getNewSource = async () => {
+  try {
+    let { data: news_sources, error } = await supabase
+      .from("news_sources")
+      .select("*");
+
+    if (error || !news_sources) throw error;
+
+    return news_sources;
+  } catch (error) {
+    console.error("[GET_NEWS_SOURCE]", error);
+    return [];
+  }
+};
+
 export const getCityName = async () => {
   try {
     const location = await getLocationInfo();
@@ -50,7 +65,6 @@ export const getCityName = async () => {
     if (location) {
       let cityInfo = location?.city?.name;
 
-      console.log({ location }, "ssssss");
       return {
         city: cityInfo || null,
       };
@@ -61,11 +75,28 @@ export const getCityName = async () => {
   }
 };
 
-export const getLocalCity = async () => {
+export const getLocalCity = async (textSearch: string) => {
+  console.log({ textSearch });
   const location = await getLocationInfo();
-  console.log({ location });
+
   if (location) {
     let cityInfo = location?.city?.name;
+    console.log({ cityInfo });
+    const { latitude, longitude } = location.location;
+
+    const textSearchResponse = await axios.get(
+      `https://maps.googleapis.com/maps/api/place/textsearch/json`,
+      {
+        params: {
+          query: `neighborhoods near ${cityInfo} ${textSearch ? `in ${textSearch}` : ""}`,
+          location: `${latitude},${longitude}`,
+          type: "sublocality",
+          radius: 5000,
+          key: env.GOOGLE_MAP_KEY,
+        },
+      },
+    );
+    console.log({ textSearchResponse });
   }
 
   return location;
