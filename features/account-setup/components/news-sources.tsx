@@ -21,7 +21,6 @@ export default function NewsSources() {
     queryFn: getNewSource,
     initialData: [...Array(4)].map((_, index) => ({ id: index })),
   });
-  console.log({ data });
   return (
     <>
       <SectionView className="px-5">

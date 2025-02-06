@@ -48,7 +48,7 @@ export default function RootLayout() {
           <Stack.Screen name="auth" options={{ headerShown: false }} />
 
           <Stack.Screen
-            name="(account-setup)"
+            name="account-setup"
             options={{
               headerShown: false,
             }}
@@ -73,7 +73,7 @@ export default function RootLayout() {
               ),
             }}
           />
-          <Stack.Screen name="(with-auth)" options={{ headerShown: false }} />
+          <Stack.Screen name="with-auth" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
           <Stack.Screen name="policies" options={{ headerShown: false }} />
         </Stack>

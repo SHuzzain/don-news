@@ -109,17 +109,26 @@ export const handleOtp = async (data: VerifyOtpParams) => {
  * Retrieves the current session from Supabase.
  */
 export const handleSession = async (): Promise<
-  AuthSessionProps & { error: AuthError | null }
+  AuthSessionProps & { error: AuthError | null } & {
+    profileData: object | null;
+  }
 > => {
   try {
     const { data, error } = await supabase.auth.getSession();
 
     if (error) throw error;
 
-    return { session: data.session, error: null };
+    const { data: profileData, error: profileError } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", data.session?.user.id);
+
+    if (profileError) throw profileError;
+
+    return { session: data.session, error: null, profileData: profileData[0] };
   } catch (err) {
     console.error("SUPABASE_AUTH_ERROR", err);
-    return { session: null, error: err as AuthError };
+    return { session: null, error: err as AuthError, profileData: {} };
   }
 };
 

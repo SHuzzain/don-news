@@ -48,7 +48,6 @@ export const useLocationScrollQuery = ({
         },
       );
       if (response.status === 200) {
-        console.log({ response });
         return {
           results: response.data.results,
           next_page_token: response.data.next_page_token,

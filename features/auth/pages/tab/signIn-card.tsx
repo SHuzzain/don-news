@@ -35,7 +35,7 @@ export default function SignInCard() {
   async function onSubmit(values: z.infer<typeof signInSchema>) {
     try {
       await handleSignIn(values);
-      router.replace("/(account-setup)");
+      router.replace("/account-setup");
     } catch (error) {
       console.error(error);
     }

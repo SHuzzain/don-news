@@ -5,6 +5,7 @@ import { Session } from "@supabase/supabase-js";
 import { getLocationInfo } from "@/actions/location-fn";
 import env from "@/config/env";
 import axios from "axios";
+import { uploadFile } from "@/actions/uploads";
 
 export const accountSetUp = async (
   values: z.infer<typeof setupSchema>,
@@ -16,13 +17,25 @@ export const accountSetUp = async (
       .update({
         email: user.email,
         username: values.username,
-        avatar_url: values.avatar,
         categories: values.topics,
         sources: values.newsSources,
         initial_setup: true,
       })
       .eq("id", user.id);
     if (error) throw error;
+
+    const data = await uploadFile(values.avatar, user.id);
+    if (data) {
+      const { error } = await supabase
+        .from("profiles")
+        .update({
+          avatar_url: data.fullPath,
+        })
+        .eq("id", user.id);
+
+      if (error) throw error;
+    }
+
     return true;
   } catch (error) {
     console.error("ACCOUNT_SETUP", error);
@@ -76,12 +89,10 @@ export const getCityName = async () => {
 };
 
 export const getLocalCity = async (textSearch: string) => {
-  console.log({ textSearch });
   const location = await getLocationInfo();
 
   if (location) {
     let cityInfo = location?.city?.name;
-    console.log({ cityInfo });
     const { latitude, longitude } = location.location;
 
     const textSearchResponse = await axios.get(
@@ -96,7 +107,6 @@ export const getLocalCity = async (textSearch: string) => {
         },
       },
     );
-    console.log({ textSearchResponse });
   }
 
   return location;

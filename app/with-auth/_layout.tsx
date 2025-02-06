@@ -22,7 +22,7 @@ const RootLayout = () => {
   if (!session) {
     return <Redirect href={"/auth"} />;
   } else if (!session.user.initial_setup) {
-    return <Redirect href={"/(account-setup)"} />;
+    return <Redirect href={"/account-setup"} />;
   }
   return (
     <SafeAreaView className="flex-1" edges={["top"]}>

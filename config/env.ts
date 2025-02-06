@@ -6,6 +6,8 @@ let env = {
     "673252130776-7smfgqg8mc7lp4boa5rckiebk0bgpv8o.apps.googleusercontent.com",
   GOOGLE_MAP_KEY: "AIzaSyAgUa83aCjDT97Bj1NJYoXhDqpVqQzSoPA",
   API_KEY: "6994ac3a6a824af98b73dcc52705c188",
+  IMAGE_DOMAIN:
+    "https://ktfxsgawxwpdvpyefksi.supabase.co/storage/v1/object/public/avatars/",
 };
 
 export default env;

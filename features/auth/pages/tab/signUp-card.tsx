@@ -40,7 +40,7 @@ export default function SignUpCard() {
         pathname: "/auth/verification",
         params: {
           email: values.email,
-          redirect: "/(account-setup)",
+          redirect: "/account-setup",
         },
       });
     } catch (error) {

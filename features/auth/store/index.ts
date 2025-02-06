@@ -12,6 +12,7 @@ interface SessionStoreProps extends AuthSessionProps {
   error: AuthError | null;
   fetchSession: () => Promise<void>;
   setSession: (data: AuthSessionProps) => void;
+  authUser: object;
   logout: () => Promise<void>;
   removeAll: () => void;
 }
@@ -22,13 +23,14 @@ const useAuthStore = create(
       session: null,
       isLoading: true,
       error: null,
+      authUser: {},
 
       /**
        * Fetch the authenticated user and update the store.
        */
       fetchSession: async () => {
-        const { session, error } = await handleSession();
-        set({ isLoading: false, error, session });
+        const { session, error, profileData } = await handleSession();
+        set({ isLoading: false, error, session, authUser: profileData || {} });
       },
 
       /**

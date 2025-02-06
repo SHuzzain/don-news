@@ -44,7 +44,6 @@ export default function VerficationCard({ meta }: VerficationCardProps) {
         token: value.otp.join(""),
         type: "signup",
       });
-      console.log("OTP Submission Success:", data);
       await router.replace(meta.redirect);
     } catch (error) {
       console.error("OTP_ERROR", error);

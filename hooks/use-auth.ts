@@ -3,7 +3,7 @@ import useAuthStore from "@/features/auth/store";
 import { supabase } from "@/lib/supabase";
 
 export default function useSession() {
-  const { fetchSession, setSession, session, isLoading, error } =
+  const { fetchSession, setSession, session, isLoading, error, authUser } =
     useAuthStore();
 
   useEffect(() => {
@@ -14,5 +14,5 @@ export default function useSession() {
     });
   }, [fetchSession, setSession, error]);
 
-  return { session, isLoading };
+  return { session, isLoading, authUser };
 }

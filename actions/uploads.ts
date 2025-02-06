@@ -1,13 +1,24 @@
 import { supabase } from "@/lib/supabase";
+import * as FileSystem from "expo-file-system";
+import { decode } from "base64-arraybuffer";
 
-export async function uploadFile(file: File) {
-  const { data, error } = await supabase.storage
-    .from("avatars")
-    .upload("profile", file);
-  if (error) {
-    console.log("POST_UPLOAD_FILE", error);
-    throw error;
-  } else {
-    return data;
+export async function uploadFile(uri: string, userId: string) {
+  try {
+    const base64 = await FileSystem.readAsStringAsync(uri, {
+      encoding: "base64",
+    });
+    const filePath = `${userId}/${new Date().getTime()}.png`;
+    const contentType = "image/png";
+    const { data, error } = await supabase.storage
+      .from("avatars")
+      .upload(filePath, decode(base64), { contentType });
+    if (error) {
+      console.error("POST_UPLOAD_FILE", error);
+      throw error;
+    } else {
+      return data;
+    }
+  } catch (error) {
+    console.error("[UPLOAD_FILE]", error);
   }
 }

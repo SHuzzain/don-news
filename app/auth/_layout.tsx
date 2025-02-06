@@ -12,7 +12,7 @@ export default function AuthRootLayout() {
   const url = Linking.useURL();
 
   if (session?.user && !session?.user.initial_setup) {
-    return <Redirect withAnchor href={"/(account-setup)"} />;
+    return <Redirect withAnchor href={"/account-setup"} />;
   }
 
   if (url) createSessionFromUrl(url);

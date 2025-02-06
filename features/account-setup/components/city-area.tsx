@@ -34,10 +34,7 @@ export default function CityArea({ info }: SetUpCardProps) {
       type: "sublocality_level_1",
     });
   const form = useFormContext();
-  console.log(
-    { data: data?.pages?.flatMap((page) => page.results), hasNextPage },
-    "ss",
-  );
+
   return (
     <>
       <SectionView className="px-5">
