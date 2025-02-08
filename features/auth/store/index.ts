@@ -3,18 +3,19 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { AuthError } from "@supabase/supabase-js";
+import { AuthError, Session } from "@supabase/supabase-js";
 import { handleSession, logoutUser } from "../actions";
-import { AuthSessionProps } from "../types";
+import { Tables } from "@/types/supabase";
 
-interface SessionStoreProps extends AuthSessionProps {
+interface SessionStoreProps {
   isLoading: boolean;
   error: AuthError | null;
   fetchSession: () => Promise<void>;
-  setSession: (data: AuthSessionProps) => void;
-  authUser: object;
+  setSession: (data: Session) => void;
+  authUser: Tables<"profiles"> | null;
   logout: () => Promise<void>;
   removeAll: () => void;
+  session: Session | null;
 }
 
 const useAuthStore = create(
@@ -23,21 +24,26 @@ const useAuthStore = create(
       session: null,
       isLoading: true,
       error: null,
-      authUser: {},
+      authUser: null,
 
       /**
        * Fetch the authenticated user and update the store.
        */
       fetchSession: async () => {
         const { session, error, profileData } = await handleSession();
-        set({ isLoading: false, error, session, authUser: profileData || {} });
+        set({
+          isLoading: false,
+          error,
+          session,
+          authUser: profileData,
+        });
       },
 
       /**
        * Set the authenticated user manually.
        */
       setSession: (data) => {
-        set(data);
+        set({ session: data });
       },
 
       /**

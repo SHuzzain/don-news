@@ -2,10 +2,10 @@ import * as WebBrowser from "expo-web-browser";
 import * as QueryParams from "expo-auth-session/build/QueryParams";
 import { makeRedirectUri } from "expo-auth-session";
 import { supabase } from "@/lib/supabase";
-import { AuthError, VerifyOtpParams } from "@supabase/supabase-js";
-import { AuthSessionProps } from "../types";
+import { AuthError, Session, VerifyOtpParams } from "@supabase/supabase-js";
 import { z } from "zod";
 import { signInSchema, signUpSchema } from "../schema";
+import { Tables } from "@/types/supabase";
 
 const redirectTo = makeRedirectUri();
 
@@ -109,8 +109,8 @@ export const handleOtp = async (data: VerifyOtpParams) => {
  * Retrieves the current session from Supabase.
  */
 export const handleSession = async (): Promise<
-  AuthSessionProps & { error: AuthError | null } & {
-    profileData: object | null;
+  { session: Session | null } & { error: AuthError | null } & {
+    profileData: Tables<"profiles"> | null;
   }
 > => {
   try {
@@ -121,14 +121,18 @@ export const handleSession = async (): Promise<
     const { data: profileData, error: profileError } = await supabase
       .from("profiles")
       .select("*")
-      .eq("id", data.session?.user.id);
+      .eq("id", data.session?.user.id as string);
 
     if (profileError) throw profileError;
 
-    return { session: data.session, error: null, profileData: profileData[0] };
+    return {
+      session: data.session,
+      error: null,
+      profileData: profileData[0],
+    };
   } catch (err) {
     console.error("SUPABASE_AUTH_ERROR", err);
-    return { session: null, error: err as AuthError, profileData: {} };
+    return { session: null, error: err as AuthError, profileData: null };
   }
 };
 

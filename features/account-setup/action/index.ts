@@ -3,8 +3,6 @@ import { z } from "zod";
 import { setupSchema } from "../schema";
 import { Session } from "@supabase/supabase-js";
 import { getLocationInfo } from "@/actions/location-fn";
-import env from "@/config/env";
-import axios from "axios";
 import { uploadFile } from "@/actions/uploads";
 
 export const accountSetUp = async (
@@ -15,8 +13,11 @@ export const accountSetUp = async (
     const { error } = await supabase
       .from("profiles")
       .update({
-        email: user.email,
-        username: values.username,
+        ...(values.isProviderUrl && {
+          avatar_url: user.user_metadata.avatar_url ?? null,
+        }),
+        email: user.user_metadata.email,
+        full_name: values.fullname,
         categories: values.topics,
         sources: values.newsSources,
         initial_setup: true,
@@ -24,16 +25,18 @@ export const accountSetUp = async (
       .eq("id", user.id);
     if (error) throw error;
 
-    const data = await uploadFile(values.avatar, user.id);
-    if (data) {
-      const { error } = await supabase
-        .from("profiles")
-        .update({
-          avatar_url: data.fullPath,
-        })
-        .eq("id", user.id);
+    if (!values.isProviderUrl) {
+      const data = await uploadFile(values.avatar, user.id, "profile-pic");
+      if (data) {
+        const { error } = await supabase
+          .from("profiles")
+          .update({
+            avatar_url: data.fullPath,
+          })
+          .eq("id", user.id);
 
-      if (error) throw error;
+        if (error) throw error;
+      }
     }
 
     return true;
@@ -88,26 +91,26 @@ export const getCityName = async () => {
   }
 };
 
-export const getLocalCity = async (textSearch: string) => {
-  const location = await getLocationInfo();
+// export const getLocalCity = async (textSearch: string) => {
+//   const location = await getLocationInfo();
 
-  if (location) {
-    let cityInfo = location?.city?.name;
-    const { latitude, longitude } = location.location;
+//   if (location) {
+//     let cityInfo = location?.city?.name;
+//     const { latitude, longitude } = location.location;
 
-    const textSearchResponse = await axios.get(
-      `https://maps.googleapis.com/maps/api/place/textsearch/json`,
-      {
-        params: {
-          query: `neighborhoods near ${cityInfo} ${textSearch ? `in ${textSearch}` : ""}`,
-          location: `${latitude},${longitude}`,
-          type: "sublocality",
-          radius: 5000,
-          key: env.GOOGLE_MAP_KEY,
-        },
-      },
-    );
-  }
+//     const textSearchResponse = await axios.get(
+//       `https://maps.googleapis.com/maps/api/place/textsearch/json`,
+//       {
+//         params: {
+//           query: `neighborhoods near ${cityInfo} ${textSearch ? `in ${textSearch}` : ""}`,
+//           location: `${latitude},${longitude}`,
+//           type: "sublocality",
+//           radius: 5000,
+//           key: env.GOOGLE_MAP_KEY,
+//         },
+//       },
+//     );
+//   }
 
-  return location;
-};
+//   return location;
+// };

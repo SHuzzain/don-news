@@ -2,12 +2,12 @@ import { supabase } from "@/lib/supabase";
 import * as FileSystem from "expo-file-system";
 import { decode } from "base64-arraybuffer";
 
-export async function uploadFile(uri: string, userId: string) {
+export async function uploadFile(uri: string, userId: string, path: string) {
   try {
     const base64 = await FileSystem.readAsStringAsync(uri, {
       encoding: "base64",
     });
-    const filePath = `${userId}/${new Date().getTime()}.png`;
+    const filePath = `${userId}/${path}.png`;
     const contentType = "image/png";
     const { data, error } = await supabase.storage
       .from("avatars")

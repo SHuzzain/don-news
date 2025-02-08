@@ -1,14 +1,7 @@
 import React from "react";
-import { Redirect, Stack } from "expo-router";
-import useSession from "@/hooks/use-auth";
+import { Stack } from "expo-router";
 
 export default function SetUpLayout() {
-  const { session } = useSession();
-
-  if (session?.user.initial_setup) {
-    return <Redirect href={"/(with-auth)/home"} />;
-  }
-
   return (
     <Stack>
       <Stack.Screen

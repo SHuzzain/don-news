@@ -16,21 +16,23 @@ import { z } from "zod";
 import NewsSources from "../components/news-sources";
 import SubmitForm from "../components/submit-form";
 import { accountSetUp } from "../action";
-import useSession from "@/hooks/use-auth";
+import useAuthStore from "@/features/auth/store";
 
 export default function SetUpCard() {
+  const { session } = useAuthStore();
+
   const swiperRef = useRef<Swiper>(null);
+
   const form = useForm<z.infer<typeof setupSchema>>({
     resolver: zodResolver(setupSchema),
     defaultValues: {
       newsSources: [],
       topics: [],
-      avatar: "",
-      username: "",
+      avatar: session?.user.user_metadata.avatar_url,
+      fullname: session?.user.user_metadata.full_name,
+      isProviderUrl: !!session?.user.user_metadata.avatar_url,
     },
   });
-  const { session } = useSession();
-
   async function onSubmit(values: z.infer<typeof setupSchema>) {
     if (!session?.user) return false;
 

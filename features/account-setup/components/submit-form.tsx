@@ -6,7 +6,6 @@ import HeadingText from "@/components/ui/heading-text";
 import { Text } from "@/components/ui/text";
 import { View } from "react-native";
 import { useImagePicker } from "@/hooks/use-image-picker";
-import useSession from "@/hooks/use-auth";
 import { FormControl, FormField, FormItem } from "@/components/ui/form";
 import InputIcon from "@/components/ui/input/inputIcon";
 import { PlusIcon, UserCircle } from "lucide-react-native";
@@ -14,10 +13,11 @@ import { useFormContext } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { z } from "zod";
 import { setupSchema } from "../schema";
+import useAuthStore from "@/features/auth/store";
 
 const SubmitForm = () => {
   const form = useFormContext<z.infer<typeof setupSchema>>();
-  const { session } = useSession();
+  const { session } = useAuthStore();
 
   const { pickImage } = useImagePicker({
     mediaTypes: "images",
@@ -74,14 +74,14 @@ const SubmitForm = () => {
       <SectionView className="px-5">
         <FormField
           control={form.control}
-          name="username"
+          name="fullname"
           render={({ field }) => (
             <FormItem>
               <FormControl>
                 <InputIcon
                   returnKeyType="done"
                   iconPosition="right"
-                  placeholder="Jhon"
+                  placeholder="Full Name"
                   {...field}
                   onChangeText={field.onChange}
                 >
