@@ -22,11 +22,11 @@ const ToastViewport = React.forwardRef<
 ToastViewport.displayName = "Toast View Port";
 
 const toastVariants = cva(
-  "flex-row justify-between items-center bg-secondary opacity-95 p-4 border-border rounded-xl",
+  "flex-row justify-between items-center bg-vogue opacity-95 p-4 border-border rounded-xl",
   {
     variants: {
       variant: {
-        default: "border bg-background text-foreground",
+        default: "border bg-vogue text-foreground",
         destructive:
           "destructive group border-destructive bg-destructive text-destructive-foreground",
       },

@@ -18,7 +18,7 @@ export default function Topic() {
   const { data, isFetching } = useQuery({
     queryKey: ["categories"],
     queryFn: getCategories,
-    initialData: [...Array(5)].map((_, index) => ({ id: index })),
+    initialData: [...Array(5)].map((_, index) => ({ id: String(index) })),
   });
 
   return (

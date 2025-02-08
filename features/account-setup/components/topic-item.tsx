@@ -10,8 +10,8 @@ import { setupSchema } from "../schema";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface TopicItemProps {
-  title: string;
-  image_url: any;
+  title?: string;
+  image_url?: any;
   loading?: boolean;
   id: string;
 }

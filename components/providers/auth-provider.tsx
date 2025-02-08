@@ -15,10 +15,8 @@ export default function AuthProvider() {
   }, [fetchSession]);
 
   useEffect(() => {
-    console.log(error?.message);
     if (error?.message) {
       toast({
-        variant: "destructive",
         description: error?.message,
       });
     }

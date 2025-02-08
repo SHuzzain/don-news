@@ -22,6 +22,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Mail } from "@/lib/icons/Email";
 import HeadingText from "@/components/ui/heading-text";
 import { router } from "expo-router";
+import { toast } from "@/hooks/use-toast";
+import { AuthError } from "@supabase/supabase-js";
 
 export default function SignUpCard() {
   const form = useForm<z.infer<typeof signUpSchema>>({
@@ -44,7 +46,14 @@ export default function SignUpCard() {
         },
       });
     } catch (error) {
-      console.error(error);
+      if (error && typeof error === "object") {
+        toast({
+          variant: "destructive",
+          description: (error as AuthError).message,
+        });
+      } else {
+        console.error("[ONSUMBIT_SIGN_UP]", error);
+      }
     }
   }
   return (

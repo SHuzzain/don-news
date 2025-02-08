@@ -19,7 +19,7 @@ import { accountSetUp } from "../action";
 import useAuthStore from "@/features/auth/store";
 
 export default function SetUpCard() {
-  const { session } = useAuthStore();
+  const { session, fetchSession } = useAuthStore();
 
   const swiperRef = useRef<Swiper>(null);
 
@@ -28,17 +28,19 @@ export default function SetUpCard() {
     defaultValues: {
       newsSources: [],
       topics: [],
-      avatar: session?.user.user_metadata.avatar_url,
-      fullname: session?.user.user_metadata.full_name,
-      isProviderUrl: !!session?.user.user_metadata.avatar_url,
+      avatar: session?.user.user_metadata?.avatar_url ?? "", // Use nullish coalescing to avoid undefined
+      fullname: session?.user.user_metadata?.full_name ?? "",
+
+      isProviderUrl: Boolean(session?.user.user_metadata?.avatar_url), // Ensure Boolean conversion
     },
   });
+
   async function onSubmit(values: z.infer<typeof setupSchema>) {
     if (!session?.user) return false;
 
     const success = await accountSetUp(values, session?.user);
     if (success) {
-      router.reload();
+      await fetchSession();
     }
   }
 

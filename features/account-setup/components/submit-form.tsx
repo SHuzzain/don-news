@@ -46,7 +46,9 @@ const SubmitForm = () => {
                     <AvatarImage source={{ uri: field.value }} />
                     <AvatarFallback>
                       <Text className="font-semibold text-6xl">
-                        {session?.user.user_metadata?.full_name[0]}
+                        {session?.user.user_metadata?.full_name?.length
+                          ? session?.user.user_metadata?.full_name[0]
+                          : ""}
                       </Text>
                     </AvatarFallback>
                   </Avatar>

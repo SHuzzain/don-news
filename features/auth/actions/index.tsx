@@ -2,7 +2,12 @@ import * as WebBrowser from "expo-web-browser";
 import * as QueryParams from "expo-auth-session/build/QueryParams";
 import { makeRedirectUri } from "expo-auth-session";
 import { supabase } from "@/lib/supabase";
-import { AuthError, Session, VerifyOtpParams } from "@supabase/supabase-js";
+import {
+  AuthError,
+  PostgrestError,
+  Session,
+  VerifyOtpParams,
+} from "@supabase/supabase-js";
 import { z } from "zod";
 import { signInSchema, signUpSchema } from "../schema";
 import { Tables } from "@/types/supabase";
@@ -67,11 +72,25 @@ export const handleSignIn = async (values: z.infer<typeof signInSchema>) => {
   const checkHasAccount = await supabase
     .from("profiles")
     .select("*")
-    .or(`username.eq.${values.credential},email.eq.${values.credential}`)
+    .eq("email", values.credential)
     .single();
+
   if (checkHasAccount.error) {
+    console.error("[SIGNIN_CHECK_ERROR]", checkHasAccount.error);
     throw checkHasAccount.error;
   }
+
+  const { error } = await supabase.auth.signInWithPassword({
+    email: values.credential,
+    password: values.password,
+  });
+
+  if (error) {
+    console.error("[SIGNIN_ERROR]", error);
+    throw error;
+  }
+
+  return true;
 };
 
 /**
@@ -86,7 +105,8 @@ export const handleSignUp = async (values: z.infer<typeof signUpSchema>) => {
     password: data.password,
   });
   if (response.error) {
-    throw response.error.message;
+    console.error("[SIGN_UP]", response.error);
+    throw response.error;
   }
 
   return response;
@@ -99,6 +119,7 @@ export const handleSignUp = async (values: z.infer<typeof signUpSchema>) => {
 export const handleOtp = async (data: VerifyOtpParams) => {
   const response = await supabase.auth.verifyOtp(data);
   if (response.error) {
+    console.error("[OTP]", response.error);
     throw response.error;
   }
 

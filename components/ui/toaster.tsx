@@ -87,7 +87,7 @@ function ToastItem({
         style={animatedStyle}
       >
         {toast.open && (
-          <Toast {...toast} open className="bg-vogue">
+          <Toast {...toast} open>
             <View className="gap-1 grid">
               {toast.title && <ToastTitle>{toast.title}</ToastTitle>}
               {toast.description && (

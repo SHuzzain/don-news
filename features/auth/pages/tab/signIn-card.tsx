@@ -22,8 +22,12 @@ import { Mail } from "@/lib/icons/Email";
 import { Link } from "expo-router";
 import { router } from "expo-router";
 import HeadingText from "@/components/ui/heading-text";
+import { PostgrestError } from "@supabase/supabase-js";
+import { toast } from "@/hooks/use-toast";
+import useAuthStore from "../../store";
 
 export default function SignInCard() {
+  const { fetchSession } = useAuthStore();
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -34,10 +38,18 @@ export default function SignInCard() {
 
   async function onSubmit(values: z.infer<typeof signInSchema>) {
     try {
-      await handleSignIn(values);
-      router.replace("/account-setup");
+      const success = await handleSignIn(values);
+      if (success) {
+        await fetchSession();
+      }
     } catch (error) {
-      console.error(error);
+      if (error && typeof error === "object") {
+        toast({
+          description: (error as PostgrestError).message,
+        });
+      } else {
+        console.error("[ONSUMBIT_SIGN_IN]", error);
+      }
     }
   }
   return (

@@ -20,6 +20,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { verifyOtpSchema } from "../schema";
 import { z } from "zod";
 import { MAX_OTP_LENGTH } from "../constant";
+import { AuthError } from "@supabase/supabase-js";
+import { toast } from "@/hooks/use-toast";
 
 type VerficationCardProps = {
   meta: {
@@ -39,14 +41,21 @@ export default function VerficationCard({ meta }: VerficationCardProps) {
 
   async function onSubmit(value: z.infer<typeof verifyOtpSchema>) {
     try {
-      const data = await handleOtp({
+      await handleOtp({
         email: meta.email,
         token: value.otp.join(""),
         type: "signup",
       });
-      await router.replace(meta.redirect);
+      router.replace(meta.redirect);
     } catch (error) {
-      console.error("OTP_ERROR", error);
+      if (error && typeof error === "object") {
+        toast({
+          variant: "destructive",
+          description: (error as AuthError).message,
+        });
+      } else {
+        console.error("ONSUBMIT_OTP", error);
+      }
     }
   }
 
