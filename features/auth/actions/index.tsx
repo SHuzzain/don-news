@@ -2,12 +2,7 @@ import * as WebBrowser from "expo-web-browser";
 import * as QueryParams from "expo-auth-session/build/QueryParams";
 import { makeRedirectUri } from "expo-auth-session";
 import { supabase } from "@/lib/supabase";
-import {
-  AuthError,
-  PostgrestError,
-  Session,
-  VerifyOtpParams,
-} from "@supabase/supabase-js";
+import { AuthError, Session, VerifyOtpParams } from "@supabase/supabase-js";
 import { z } from "zod";
 import { signInSchema, signUpSchema } from "../schema";
 import { Tables } from "@/types/supabase";

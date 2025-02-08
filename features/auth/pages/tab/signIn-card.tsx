@@ -20,7 +20,6 @@ import { Text } from "@/components/ui/text";
 import { handleAuth, handleSignIn } from "../../actions";
 import { Mail } from "@/lib/icons/Email";
 import { Link } from "expo-router";
-import { router } from "expo-router";
 import HeadingText from "@/components/ui/heading-text";
 import { PostgrestError } from "@supabase/supabase-js";
 import { toast } from "@/hooks/use-toast";
